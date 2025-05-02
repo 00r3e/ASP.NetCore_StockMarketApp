@@ -1,0 +1,20 @@
+﻿@model StockTrade
+
+<div class="box background-grey">
+    <div hidden>@Model.StockSymbol</div>
+    <div class="flex-container">
+        <div class="stock-font">@Model.StockName</div>
+        <div class="stock-font">(@Model.StockSymbol)</div>
+    </div>
+    <h1 id="curentPrice">@Model.Price</h1>
+</div>
+
+<input type="hidden" name="StockSymbol" id="StockSymbol" value="@Model.StockSymbol" />
+<input type="hidden" id="FinnhubToken" value="@ViewBag.FinnhubToken" />
+
+
+@section Scripts {
+    <script src=@Url.Content("~/Scripts/FinnhubScript.js")>
+    </script>
+} 
+

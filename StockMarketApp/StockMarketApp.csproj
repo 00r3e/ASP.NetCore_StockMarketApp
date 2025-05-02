@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>c943de09-6cd1-42ce-bafd-8bc4a032ab24</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Entities\Entities.csproj" />
+    <ProjectReference Include="..\IFinnhubService\ServicesContracts.csproj" />
+    <ProjectReference Include="..\Servicies\Servicies.csproj" />
+  </ItemGroup>
+
+</Project>
