@@ -1,4 +1,4 @@
-﻿namespace Entities
+﻿namespace StockMarketApp.Models
 {
     public class StockTrade
     {
