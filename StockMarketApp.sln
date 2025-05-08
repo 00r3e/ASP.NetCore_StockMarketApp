@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Servicies", "Servicies\Serv
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Entities", "Entities\Entities.csproj", "{C2BC67B3-36CA-41E6-AA09-6D4E296CCB11}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StockMarketAppTests", "StockMarketAppTests\StockMarketAppTests.csproj", "{67AFD115-11FB-40DF-ABA9-F5D7A18981D9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{C2BC67B3-36CA-41E6-AA09-6D4E296CCB11}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C2BC67B3-36CA-41E6-AA09-6D4E296CCB11}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C2BC67B3-36CA-41E6-AA09-6D4E296CCB11}.Release|Any CPU.Build.0 = Release|Any CPU
+		{67AFD115-11FB-40DF-ABA9-F5D7A18981D9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{67AFD115-11FB-40DF-ABA9-F5D7A18981D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{67AFD115-11FB-40DF-ABA9-F5D7A18981D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{67AFD115-11FB-40DF-ABA9-F5D7A18981D9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
