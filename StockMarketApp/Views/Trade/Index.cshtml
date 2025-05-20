@@ -1,20 +1,54 @@
 ﻿@model StockTrade
 
-<div class="box background-grey">
-    <div hidden>@Model.StockSymbol</div>
-    <div class="flex-container">
-        <div class="stock-font">@Model.StockName</div>
-        <div class="stock-font">(@Model.StockSymbol)</div>
-    </div>
-    <h1 id="curentPrice">@Model.Price</h1>
-</div>
+@{
+	ViewBag.Title = "Trading";
+	ViewBag.CurrentUrl = "~/Trade/Index";
+}
 
-<input type="hidden" name="StockSymbol" id="StockSymbol" value="@Model.StockSymbol" />
-<input type="hidden" id="FinnhubToken" value="@ViewBag.FinnhubToken" />
+<form method="post">
 
+	<div class="text-grey ml">
+		<span>Stocks</span>
+		<i class="fa-solid fa-caret-right"></i>
+		<span>@Model.StockName</span>
+	</div>
+	<div class="flex trading-panel-flex box background-grey">
+		<div class="fo mr-50">
+			<div hidden>@Model.StockSymbol</div>
+			<div class="flex-container">
+				<div class="stock-font">@Model.StockName</div>
+				<div class="stock-font">(@Model.StockSymbol)</div>
+			</div>
+			<h1 id="curentPrice" class="font-size-stockprice"><span class="text-grey">$</span> @Model.Price</h1>
+
+		</div>
+		<div id="new-order-panel">
+			<div class="flex flex-direction-vertical"></div>
+			<div class="text-grey mb">New Order</div>
+			<label for="Quantity" class="mt">Quantity:</label>
+			<div class="w-25">
+				<input type="number" name="Quantity" id="Quantity" value="@Model.Quantity" min="1" max="100000" placeholder="Quantity" required="required" class="form-input mb quantity-width" autofocus="autofocus" />
+			</div>
+
+			<button type="submit" formaction="/Trade/SellOrder" class="button-red-back button mr">Sell</button>
+			<button type="submit" formaction="/Trade/BuyOrder" class="button-green-back button mr">Buy</button>
+
+		</div>
+
+	</div>
+
+
+	<input type="hidden" name="StockSymbol" id="StockSymbol" value="@Model.StockSymbol" />
+	<input type="hidden" name="StockName" id="StockName" value="@Model.StockName" />
+	<input type="hidden" name="Price" id="Price" value="@Model.Price" />
+	<input type="hidden" name="DateAndTimeOfOrder" id="DateAndTimeOfOrder" value="@DateTime.Now" />
+	<input type="hidden" id="FinnhubToken" value="@ViewBag.FinnhubToken" />
+
+
+</form>
 
 @section Scripts {
-    <script src=@Url.Content("~/Scripts/FinnhubScript.js")>
-    </script>
-} 
+	<script src=@Url.Content("~/Scripts/FinnhubScript.js")>
+	</script>
+}
 

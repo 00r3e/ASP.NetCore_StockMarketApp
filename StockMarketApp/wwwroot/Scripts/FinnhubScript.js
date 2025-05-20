@@ -6,6 +6,8 @@ var stockSymbol = document.getElementById("StockSymbol").value;
 const socket = new WebSocket(`wss://ws.finnhub.io?token=${token}`);
 
 
+/*${ token }*/
+
 // Open the connection and subscribe 
 socket.addEventListener('open', function (event) {
     socket.send(JSON.stringify({ 'type': 'subscribe', 'symbol': stockSymbol }))
@@ -21,7 +23,7 @@ socket.addEventListener('message', function (event) {
     }
 
     //data received from server
-    /*console.log('Message from server ', event.data);*/
+    console.log('Message from server ', event.data);
 
     /*response:
     {"data":[{"p":220.89,"s":"MSFT","t":1575526691134,"v":100}],"type":"trade"}
@@ -40,10 +42,11 @@ socket.addEventListener('message', function (event) {
             //get the updated price
             var parsedData = JSON.parse(event.data);
             var updatedPrice = parsedData.data[parsedData.data.length - 1 ].p;
-            //console.log(updatedPrice);
+            console.log(updatedPrice);
 
             //update the UI
             document.getElementById("curentPrice").textContent = updatedPrice.toFixed(2);
+            document.getElementById("Price").value = updatedPrice.toFixed(2);
         }
     }
 });
