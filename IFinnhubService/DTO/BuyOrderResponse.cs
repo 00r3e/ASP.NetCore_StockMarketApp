@@ -16,7 +16,7 @@ namespace ServicesContracts.DTO
         public DateTime DateAndTimeOfOrder { get; set; }
         public uint Quantity { get; set; }
         public double Price { get; set; }
-        public double TradeAmound { get; set; }
+        public double TradeAmount { get; set; }
 
         public override bool Equals(object? obj)
         {
@@ -28,7 +28,7 @@ namespace ServicesContracts.DTO
 
             return (BuyOrderID == buyOrderResponse.BuyOrderID && StockSymbol == buyOrderResponse.StockSymbol &&
                 StockName == buyOrderResponse.StockName && DateAndTimeOfOrder == buyOrderResponse.DateAndTimeOfOrder) &&
-                Quantity == buyOrderResponse.Quantity && Price == buyOrderResponse.Price && TradeAmound == buyOrderResponse.TradeAmound;
+                Quantity == buyOrderResponse.Quantity && Price == buyOrderResponse.Price && TradeAmount == buyOrderResponse.TradeAmount;
 
         }
 
@@ -40,7 +40,7 @@ namespace ServicesContracts.DTO
         public override string ToString()
         {
             return $"Buy Order ID: {BuyOrderID},Stock Symbol: {StockSymbol},Stock Name: {StockName},Date And Time Of Order: " +
-            $"{DateAndTimeOfOrder},Quantity: {Quantity.ToString()},Price: {Price.ToString()},Trade Amound: {TradeAmound.ToString()}";
+            $"{DateAndTimeOfOrder},Quantity: {Quantity.ToString()},Price: {Price.ToString()},Trade Amound: {TradeAmount.ToString()}";
         }
 
         
@@ -62,7 +62,8 @@ namespace ServicesContracts.DTO
                 StockName = buyOrder.StockName,
                 DateAndTimeOfOrder = buyOrder.DateAndTimeOfOrder,
                 Quantity = buyOrder.Quantity,
-                Price = buyOrder.Price
+                Price = buyOrder.Price,
+                TradeAmount = buyOrder.Price * buyOrder.Quantity
             };
         }
     }

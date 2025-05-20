@@ -298,6 +298,12 @@
     box-shadow: 0px 0px 3px 2px #ffffff;
 }
 
+.links {
+    margin: 10px 20px;
+    padding: 2px;
+    height: 20px;
+}
+
 .flex-direction-vertical {
     flex-direction: column;
 }
@@ -517,6 +523,25 @@ a.link-hover:hover {
 .stock-font{
     color:#2d7edb ;
     font-size:24px;
+}
+
+.quantity-width{
+    width:100px;
+}
+
+.mr-50{
+    margin-right:30%;
+}
+
+.font-size-stockprice{
+    font-size:50px;
+}
+.font-size-stockprice > span {
+    font-size: 40px;
+}
+
+.width-50{
+    width:50%
 }
 
 

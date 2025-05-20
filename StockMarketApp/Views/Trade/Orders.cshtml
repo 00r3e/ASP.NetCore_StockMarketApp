@@ -1,0 +1,52 @@
+﻿@model Orders
+
+@{
+    ViewBag.Title = "Trading";
+    ViewBag.CurrentUrl = "~/Trade/Orders";
+}
+<div class="text-grey ml">
+    <span>Stocks</span>
+    <i class="fa-solid fa-caret-right"></i>
+    <span>Orders</span>
+</div>
+
+<div class="flex order-list">
+    <div id="buy-orders-list">
+        <div class="box">
+            <h4 class="text-grey mb">Buy Orders</h4>
+            @foreach(BuyOrderResponse buyOrderResponse in Model.BuyOrders){
+                @await Html.PartialAsync("/Views/Shared/_OrderDetails.cshtml",
+                         new ViewDataDictionary(ViewData){
+            {"StockName", buyOrderResponse.StockName },
+            {"StockSymbol", buyOrderResponse.StockSymbol },
+            {"Quantity", buyOrderResponse.Quantity },
+            {"Price", buyOrderResponse.Price},
+            {"TradeAmount", buyOrderResponse.TradeAmount},
+            {"DateAndTimeOfOrder", buyOrderResponse.DateAndTimeOfOrder }
+            })
+            }
+            </div>
+            
+    </div>
+
+    <div id="sell-orders-list">
+
+        <div class="box">
+            <h4 class="text-grey mb">Sell Orders</h4>
+            @foreach (SellOrderResponse sellOrderResponse in Model.SellOrders)
+            {
+                @await Html.PartialAsync("/Views/Shared/_OrderDetails.cshtml",
+                         new ViewDataDictionary(ViewData){
+            {"StockName", sellOrderResponse.StockName },
+            {"StockSymbol", sellOrderResponse.StockSymbol },
+            {"Quantity", sellOrderResponse.Quantity },
+            {"Price", sellOrderResponse.Price},
+            {"TradeAmount", sellOrderResponse.TradeAmount},
+            {"DateAndTimeOfOrder", sellOrderResponse.DateAndTimeOfOrder }
+            })
+            }
+            </div>
+
+    </div>
+
+</div>
