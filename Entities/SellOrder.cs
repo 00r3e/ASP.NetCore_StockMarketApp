@@ -12,8 +12,10 @@ namespace Entities
     {
         [Key]
         public Guid SellOrderID {  get; set; }
+        [StringLength(20)]
         [Required(ErrorMessage = "Stock Symbol can't be null or empty")]
         public string StockSymbol { get; set; }
+        [StringLength(50)]
         [Required(ErrorMessage = "Stock Name can't be null or empty")]
         public string StockName { get; set; }
         public DateTime DateAndTimeOfOrder { get; set; }

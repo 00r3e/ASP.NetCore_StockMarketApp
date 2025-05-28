@@ -7,22 +7,25 @@ using ServicesContracts;
 using ServicesContracts.DTO;
 using Entities;
 using Servicies.Helpers;
+using Microsoft.EntityFrameworkCore;
 
 namespace Servicies
 {
     public class StockService : IStockService
     {
         //private field
+        private readonly OrdersDbContext _ordersDbContext;
         private readonly List<BuyOrder> _buyOrders;
         private readonly List<SellOrder> _sellOrders;
 
-        public StockService()
+        public StockService(OrdersDbContext ordersDbContext)
         {
+            _ordersDbContext = ordersDbContext;
             _buyOrders = new List<BuyOrder>();
             _sellOrders = new List<SellOrder>();
         }
 
-        public BuyOrderResponse CreateBuyOrder(BuyOrderRequest? buyOrderRequest)
+        public async Task<BuyOrderResponse> CreateBuyOrder(BuyOrderRequest? buyOrderRequest)
         {
             if(buyOrderRequest == null) throw new ArgumentNullException(nameof(buyOrderRequest));
 
@@ -33,14 +36,15 @@ namespace Servicies
              
             buyOrder.BuyOrderID = Guid.NewGuid();
 
-            _buyOrders.Add(buyOrder);
+            await _ordersDbContext.BuyOrders.AddAsync(buyOrder);
+            await _ordersDbContext.SaveChangesAsync();
 
             BuyOrderResponse buyOrderResponse = buyOrder.ToBuyOrderResponse();
 
             return buyOrderResponse;
         }
 
-        public SellOrderResponse CreateSellOrder(SellOrderRequest? sellOrderRequest)
+        public async Task<SellOrderResponse> CreateSellOrder(SellOrderRequest? sellOrderRequest)
         {
             if(sellOrderRequest == null) throw new ArgumentNullException(nameof(sellOrderRequest));
 
@@ -51,7 +55,8 @@ namespace Servicies
 
             sellOrder.SellOrderID = Guid.NewGuid();
 
-            _sellOrders.Add(sellOrder);
+            await _ordersDbContext.SellOrders.AddAsync(sellOrder);
+            await _ordersDbContext.SaveChangesAsync();
 
             SellOrderResponse sellOrderResponse = sellOrder.ToSellOrderResponse();
 
@@ -59,14 +64,14 @@ namespace Servicies
         }
 
        
-        public List<BuyOrderResponse> GetBuyOrders()
+        public async Task<List<BuyOrderResponse>> GetBuyOrders()
         {
-            return _buyOrders.Select(bo => bo.ToBuyOrderResponse()).ToList();
+            return await _ordersDbContext.BuyOrders.Select(bo => bo.ToBuyOrderResponse()).ToListAsync();
         }
 
-        public List<SellOrderResponse> GetSellOrders()
+        public async Task<List<SellOrderResponse>> GetSellOrders()
         {
-            return _sellOrders.Select(so => so.ToSellOrderResponse()).ToList();
+            return await _ordersDbContext.SellOrders.Select(so => so.ToSellOrderResponse()).ToListAsync();
         }
     }
 }
