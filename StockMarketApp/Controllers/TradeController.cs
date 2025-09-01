@@ -27,11 +27,17 @@ namespace StockMarketApp.Controllers
 
         [Route("/")]
         [Route("[action]")]
-        public async Task<IActionResult> Index()
+        [Route("[action]/{stockSymbol}")]
+
+        public async Task<IActionResult> Index(string stockSymbol)
         {
             if (_tradingOptions.DefaultStockSymbol == null)
             {
                 _tradingOptions.DefaultStockSymbol = "MSFT";
+            }
+            if (stockSymbol == null) 
+            {
+                stockSymbol = _tradingOptions.DefaultStockSymbol;
             }
 
             if (_tradingOptions.DefaultOrderQuantity == null)
@@ -40,10 +46,10 @@ namespace StockMarketApp.Controllers
             }
 
             // Get stock price quote data from the Finnhub service
-            Dictionary<string, object>? finnhubStockPriceQuote = await _finnhubService.GetStockPriceQuote(_tradingOptions.DefaultStockSymbol);
+            Dictionary<string, object>? finnhubStockPriceQuote = await _finnhubService.GetStockPriceQuote(stockSymbol);
 
             // Get company profile data from the Finnhub service
-            Dictionary<string, object>? finnhubCompanyProfile = await _finnhubService.GetCompanyProfile(_tradingOptions.DefaultStockSymbol);
+            Dictionary<string, object>? finnhubCompanyProfile = await _finnhubService.GetCompanyProfile(stockSymbol);
             // Store the Finnhub token in ViewBag
             ViewBag.FinnhubToken = _configuration["FinnhubToken"];
 
@@ -51,13 +57,13 @@ namespace StockMarketApp.Controllers
             //Create stock trade object
             StockTrade stockTrade = new StockTrade()
             {
-                StockSymbol = _tradingOptions.DefaultStockSymbol,
+                StockSymbol = stockSymbol,
 
                 StockName = (finnhubCompanyProfile != null) ? finnhubCompanyProfile["name"].ToString() : null,
                 Price = (finnhubStockPriceQuote != null) ? Convert.ToDouble(finnhubStockPriceQuote["c"].ToString()) : 0,
                 Quantity = Convert.ToUInt32(_tradingOptions.DefaultOrderQuantity)
             };
-            
+
             // Pass the stockTrade object to the view
             return View(stockTrade);
         }

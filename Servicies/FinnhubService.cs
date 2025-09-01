@@ -1,5 +1,6 @@
 ﻿using System.Text.Json;
 using Microsoft.Extensions.Configuration;
+using RepositoryContracts;
 using ServicesContracts;
 
 namespace Servicies
@@ -8,79 +9,83 @@ namespace Servicies
     {
         private readonly IHttpClientFactory _httpClientFactory;
         private readonly IConfiguration _configuration;
+        private readonly IFinnhubRepository _finnhubRepository;
 
-        public FinnhubService(IHttpClientFactory httpClientFactory, IConfiguration configuration) 
-        { 
+        public FinnhubService(IHttpClientFactory httpClientFactory, IConfiguration configuration, IFinnhubRepository finnhubRepository)
+        {
             _configuration = configuration;
             _httpClientFactory = httpClientFactory;
+            _finnhubRepository = finnhubRepository;
         }
 
         public async Task<Dictionary<string, object>?> GetStockPriceQuote(string stockSymbol)
         {
-            using (HttpClient httpClient = _httpClientFactory.CreateClient())
+            Dictionary<string, object>? responceDictionary = await _finnhubRepository.GetStockPriceQuote(stockSymbol);
+
+            if (responceDictionary == null)
             {
-                HttpRequestMessage httpRequestMessage = new HttpRequestMessage()
-                {
-                    RequestUri = new Uri($"https://finnhub.io/api/v1/quote?symbol={stockSymbol}&token={_configuration["FinnhubToken"]} "),
-                    Method = HttpMethod.Get,
-
-                };
-                HttpResponseMessage httpResponseMessage = await httpClient.SendAsync(httpRequestMessage);
-
-                Stream stream = httpResponseMessage.Content.ReadAsStream();
-
-                StreamReader reader = new StreamReader(stream);
-
-                string response = reader.ReadToEnd();
-
-                Dictionary<string, object>? responceDictionary = JsonSerializer.Deserialize<Dictionary<string, object>>(response);
-
-                if (responceDictionary == null)
-                {
-                    throw new InvalidOperationException("No response from finnhub server");
-                }
-
-                if (responceDictionary.ContainsKey("error"))
-                {
-                    throw new InvalidOperationException(Convert.ToString(responceDictionary["error"]));
-                }
-
-                return responceDictionary;
+                throw new InvalidOperationException("No response from finnhub server");
             }
+
+            if (responceDictionary.ContainsKey("error"))
+            {
+                throw new InvalidOperationException(Convert.ToString(responceDictionary["error"]));
+            }
+
+            return responceDictionary;
         }
 
-        public async Task<Dictionary<string, object>?>  GetCompanyProfile(string stockSymbol)
+        public async Task<Dictionary<string, object>?> GetCompanyProfile(string stockSymbol)
         {
-            using (HttpClient httpClient = _httpClientFactory.CreateClient())
+            Dictionary<string, object>? responceDictionary = await _finnhubRepository.GetCompanyProfile(stockSymbol);
+
+            if (responceDictionary == null)
             {
-                HttpRequestMessage httpRequestMessage = new HttpRequestMessage()
-                {
-                    RequestUri = new Uri($"https://finnhub.io/api/v1/stock/profile2?symbol={stockSymbol}&token={_configuration["FinnhubToken"]} "),
-                    Method = HttpMethod.Get,
-
-                };
-                HttpResponseMessage httpResponseMessage = await httpClient.SendAsync(httpRequestMessage);
-
-                Stream stream = httpResponseMessage.Content.ReadAsStream();
-
-                StreamReader reader = new StreamReader(stream);
-
-                string response = reader.ReadToEnd();
-
-                Dictionary<string, object>? responceDictionary = JsonSerializer.Deserialize<Dictionary<string, object>>(response);
-
-                if (responceDictionary == null)
-                {
-                    throw new InvalidOperationException("No response from finnhub server");
-                }
-
-                if (responceDictionary.ContainsKey("error"))
-                {
-                    throw new InvalidOperationException(Convert.ToString(responceDictionary["error"]));
-                }
-
-                return responceDictionary;
+                throw new InvalidOperationException("No response from finnhub server");
             }
+
+            if (responceDictionary.ContainsKey("error"))
+            {
+                throw new InvalidOperationException(Convert.ToString(responceDictionary["error"]));
+            }
+
+            return responceDictionary;
+
+        }
+
+        public async Task<List<Dictionary<string, string>>?> GetStocks()
+        {
+            List<Dictionary<string, string>>? responceDictionaries = await _finnhubRepository.GetStocks();
+
+            if (responceDictionaries == null)
+            {
+                throw new InvalidOperationException("No response from finnhub server");
+            }
+
+            foreach(Dictionary<string, string> responceDictionary in responceDictionaries)
+            if (responceDictionary.ContainsKey("error"))
+            {
+                throw new InvalidOperationException(Convert.ToString(responceDictionary["error"]));
+            }
+
+            return responceDictionaries;
+        }
+
+        public async Task<Dictionary<string, object>?> SearchStocks(string stockSymbolToSearch)
+        {
+            Dictionary<string, object>? responceDictionary = await _finnhubRepository.SearchStocks(stockSymbolToSearch);
+
+            if (responceDictionary == null)
+            {
+                throw new InvalidOperationException("No response from finnhub server");
+            }
+
+            if (responceDictionary.ContainsKey("error"))
+            {
+                throw new InvalidOperationException(Convert.ToString(responceDictionary["error"]));
+            }
+
+            return responceDictionary;
         }
     }
 }

@@ -36,6 +36,15 @@
 
             <div class="navbar mb">
                 <ul>
+                    @if (ViewBag.CurrentUrl == "~/Stocks/Explore")
+                    {
+                        <li><a href="~/Stocks/Explore" class="nav-active">Explore</a></li>
+                    }
+                    else
+                    {
+                        <li><a href="~/Stocks/Explore">Explore</a></li>
+                    }
+
                     @if (ViewBag.CurrentUrl == "~/Trade/Index")
                     {
                         <li><a href="~/Trade/Index" class="nav-active">Trade</a></li>

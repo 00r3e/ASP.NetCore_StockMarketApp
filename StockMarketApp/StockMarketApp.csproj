@@ -17,6 +17,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\IFinnhubService\ServicesContracts.csproj" />
+    <ProjectReference Include="..\Repositories\Repositories.csproj" />
+    <ProjectReference Include="..\RepositoryContracts\RepositoryContracts.csproj" />
     <ProjectReference Include="..\Servicies\Servicies.csproj" />
   </ItemGroup>
 

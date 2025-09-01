@@ -1,0 +1,16 @@
+﻿@model Dictionary<string, string>
+@{
+    var stockPrice = ViewBag.stockPrice ?? 0.0;
+}
+
+@if (Model != null)
+{
+        <div id="stock-details">
+            <img class="w-25" src="@Model["logo"]" />
+        <div class="mt">@Model["exchange"] (@Model["ticker"])</div>
+        <div class="mt">@Model["finnhubIndustry"]</div>
+        <div class="mt">Exchange: @Model["exchange"]</div>
+        <div class="mt mb-20">$ @stockPrice</div>
+        <a class=" trade-now button button-blue-back " href="@Url.Action("Index", "Trade", new { stockSymbol = Model["ticker"] })">Trade Now</a>
+        </div>
+}
