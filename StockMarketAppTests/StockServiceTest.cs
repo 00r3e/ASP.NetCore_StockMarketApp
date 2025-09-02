@@ -3,6 +3,7 @@ using System.Diagnostics;
 using AutoFixture;
 using Entities;
 using FluentAssertions;
+using Microsoft.Extensions.Logging;
 using Moq;
 using RepositoryContracts;
 using ServicesContracts;
@@ -29,7 +30,9 @@ namespace StockMarketAppTests
             _stockRepositoryMock = new Mock<IStockRepository>();
             _stockRepository = _stockRepositoryMock.Object;
 
-            _stockService = new StockService(_stockRepository);
+            var loggerMock = new Mock<ILogger<StockService>>();
+
+            _stockService = new StockService(_stockRepository, loggerMock.Object);
         }
 
         #region CreateBuyOrder

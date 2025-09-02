@@ -13,20 +13,24 @@ namespace StockMarketApp.Controllers
         private readonly TradingOptions _tradingOptions;
         private readonly IConfiguration _configuration;
         private readonly IStockService _stockService;
+        private readonly ILogger<StocksController> _logger;
 
         public StocksController(IFinnhubService finnhubService, IOptions<TradingOptions> tradingOptions,
-            IConfiguration configuration, IStockService stockService)
+            IConfiguration configuration, IStockService stockService, ILogger<StocksController> logger)
         {
             _configuration = configuration;
             _tradingOptions = tradingOptions.Value;
             _stockService = stockService;
             _finnhubService = finnhubService;
+            _logger = logger;
         }
 
         [Route("[action]")]
         [Route("[action]/{stockSymbol}")]
         public async Task<IActionResult> Explore(string stockSymbol)
         {
+            _logger.LogInformation("{MetodName} action method of {ControllerName}", nameof(Explore), nameof(StocksController));
+
             // Get all stocks 
             List<Dictionary<string, string>>? allStocks = await _finnhubService.GetStocks();
 
@@ -60,6 +64,8 @@ namespace StockMarketApp.Controllers
         [Route("[action]")]
         public async Task<IActionResult> GetStockDetails(string stockSymbol)
         {
+            _logger.LogInformation("{MetodName} action method of {ControllerName}", nameof(GetStockDetails), nameof(StocksController));
+
             var stockDetails = await _finnhubService.GetCompanyProfile(stockSymbol);
             var stockPriceQuote = await _finnhubService.GetStockPriceQuote(stockSymbol);
 

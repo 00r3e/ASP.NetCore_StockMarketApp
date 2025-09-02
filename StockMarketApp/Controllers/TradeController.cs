@@ -1,5 +1,6 @@
 ﻿using Entities;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Options;
 using Rotativa.AspNetCore;
 using ServicesContracts;
@@ -15,14 +16,17 @@ namespace StockMarketApp.Controllers
         private readonly TradingOptions _tradingOptions;
         private readonly IConfiguration _configuration;
         private readonly IStockService _stockService;
+        private readonly ILogger<TradeController> _logger;
+
 
         public TradeController(IFinnhubService finnhubService, IOptions<TradingOptions> tradingOptions, 
-                                IConfiguration configuration, IStockService stockService) 
+                                IConfiguration configuration, IStockService stockService, ILogger<TradeController> logger) 
         { 
             _finnhubService = finnhubService;
             _tradingOptions = tradingOptions.Value;
             _configuration = configuration;
             _stockService = stockService;
+            _logger = logger;
         }
 
         [Route("/")]
@@ -31,6 +35,9 @@ namespace StockMarketApp.Controllers
 
         public async Task<IActionResult> Index(string stockSymbol)
         {
+            _logger.LogInformation("{MetodName} action method of {ControllerName}",  nameof(Index), nameof(TradeController));
+
+
             if (_tradingOptions.DefaultStockSymbol == null)
             {
                 _tradingOptions.DefaultStockSymbol = "MSFT";
@@ -73,6 +80,8 @@ namespace StockMarketApp.Controllers
         [HttpPost]
         public async Task<IActionResult> BuyOrder(BuyOrderRequest buyOrderRequest)
         {
+            _logger.LogInformation("{MetodName} action method of {ControllerName}", nameof(BuyOrder), nameof(TradeController));
+
             buyOrderRequest.DateAndTimeOfOrder = DateTime.Now;
 
             ModelState.Clear();
@@ -96,6 +105,8 @@ namespace StockMarketApp.Controllers
         [HttpPost]
         public async Task<IActionResult> SellOrder(SellOrderRequest sellOrderRequest)
         {
+            _logger.LogInformation("{MetodName} action method of {ControllerName}",  nameof(SellOrder), nameof(TradeController));
+
             sellOrderRequest.DateAndTimeOfOrder = DateTime.Now;
 
             ModelState.Clear();
@@ -120,6 +131,8 @@ namespace StockMarketApp.Controllers
 
         public async Task<IActionResult> Orders()
         {
+            _logger.LogInformation("{MetodName} action method of {ControllerName}", nameof(Orders), nameof(TradeController));
+
             Orders orders = new Orders()
             {
                 BuyOrders = await _stockService.GetBuyOrders(),
@@ -132,6 +145,8 @@ namespace StockMarketApp.Controllers
         [Route("OrdersPDF")]
         public async Task<IActionResult> OrdersPDF()
         {
+            _logger.LogInformation("{MetodName} action method of {ControllerName}", nameof(OrdersPDF), nameof(TradeController));
+
             Orders orders = new Orders();
 
             //Get list of sell and buy orders

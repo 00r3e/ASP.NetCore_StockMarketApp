@@ -1,5 +1,6 @@
 ﻿using System.Text.Json;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using RepositoryContracts;
 using ServicesContracts;
 
@@ -10,16 +11,21 @@ namespace Servicies
         private readonly IHttpClientFactory _httpClientFactory;
         private readonly IConfiguration _configuration;
         private readonly IFinnhubRepository _finnhubRepository;
+        private readonly ILogger<FinnhubService> _logger;
 
-        public FinnhubService(IHttpClientFactory httpClientFactory, IConfiguration configuration, IFinnhubRepository finnhubRepository)
+        public FinnhubService(IHttpClientFactory httpClientFactory, IConfiguration configuration, IFinnhubRepository finnhubRepository
+            , ILogger<FinnhubService> logger)
         {
             _configuration = configuration;
             _httpClientFactory = httpClientFactory;
             _finnhubRepository = finnhubRepository;
+            _logger = logger;
         }
 
         public async Task<Dictionary<string, object>?> GetStockPriceQuote(string stockSymbol)
         {
+            _logger.LogInformation("{MethodName} of {ServiceName}", nameof(GetStockPriceQuote), nameof(FinnhubService));
+
             Dictionary<string, object>? responceDictionary = await _finnhubRepository.GetStockPriceQuote(stockSymbol);
 
             if (responceDictionary == null)
@@ -37,6 +43,8 @@ namespace Servicies
 
         public async Task<Dictionary<string, object>?> GetCompanyProfile(string stockSymbol)
         {
+            _logger.LogInformation("{MethodName} of {ServiceName}", nameof(GetCompanyProfile), nameof(FinnhubService));
+
             Dictionary<string, object>? responceDictionary = await _finnhubRepository.GetCompanyProfile(stockSymbol);
 
             if (responceDictionary == null)
@@ -55,6 +63,8 @@ namespace Servicies
 
         public async Task<List<Dictionary<string, string>>?> GetStocks()
         {
+            _logger.LogInformation("{MethodName} of {ServiceName}", nameof(GetStocks), nameof(FinnhubService));
+
             List<Dictionary<string, string>>? responceDictionaries = await _finnhubRepository.GetStocks();
 
             if (responceDictionaries == null)
@@ -73,6 +83,8 @@ namespace Servicies
 
         public async Task<Dictionary<string, object>?> SearchStocks(string stockSymbolToSearch)
         {
+            _logger.LogInformation("{MethodName} of {ServiceName}", nameof(SearchStocks), nameof(FinnhubService));
+
             Dictionary<string, object>? responceDictionary = await _finnhubRepository.SearchStocks(stockSymbolToSearch);
 
             if (responceDictionary == null)
