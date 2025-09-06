@@ -5,6 +5,7 @@ using Microsoft.Extensions.Options;
 using Rotativa.AspNetCore;
 using ServicesContracts;
 using ServicesContracts.DTO;
+using StockMarketApp.Filters.ActionFilters;
 using StockMarketApp.Models;
 
 namespace StockMarketApp.Controllers
@@ -78,50 +79,25 @@ namespace StockMarketApp.Controllers
 
         [Route("[action]")]
         [HttpPost]
-        public async Task<IActionResult> BuyOrder(BuyOrderRequest buyOrderRequest)
+        [TypeFilter(typeof(CreateOrderActionFilter))]
+        public async Task<IActionResult> BuyOrder(BuyOrderRequest orderRequest)
         {
             _logger.LogInformation("{MetodName} action method of {ControllerName}", nameof(BuyOrder), nameof(TradeController));
 
-            buyOrderRequest.DateAndTimeOfOrder = DateTime.Now;
-
-            ModelState.Clear();
-            TryValidateModel(buyOrderRequest);
-
-            if (!ModelState.IsValid)
-            {
-                ViewBag.Errors = ModelState.Values
-                        .SelectMany(v => v.Errors)
-                        .Select(e => e.ErrorMessage)
-                        .ToList();
-                return RedirectToAction("Index", "Trade");
-            }
-
-            BuyOrderResponse buyOrderResponse = await _stockService.CreateBuyOrder(buyOrderRequest);
+            BuyOrderResponse buyOrderResponse = await _stockService.CreateBuyOrder(orderRequest);
 
             return RedirectToAction("Orders");
         }
 
         [Route("[action]")]
         [HttpPost]
-        public async Task<IActionResult> SellOrder(SellOrderRequest sellOrderRequest)
+        [TypeFilter(typeof(CreateOrderActionFilter))]
+
+        public async Task<IActionResult> SellOrder(SellOrderRequest orderRequest)
         {
             _logger.LogInformation("{MetodName} action method of {ControllerName}",  nameof(SellOrder), nameof(TradeController));
 
-            sellOrderRequest.DateAndTimeOfOrder = DateTime.Now;
-
-            ModelState.Clear();
-            TryValidateModel(sellOrderRequest);
-
-            if (!ModelState.IsValid)
-            {
-                ViewBag.Errors = ModelState.Values
-                        .SelectMany(v => v.Errors)
-                        .Select(e => e.ErrorMessage)
-                        .ToList();
-                return RedirectToAction("Index", "Trade");
-            }
-
-            SellOrderResponse sellOrderResponse = await _stockService.CreateSellOrder(sellOrderRequest);
+            SellOrderResponse sellOrderResponse = await _stockService.CreateSellOrder(orderRequest);
 
             return RedirectToAction("Orders");
         }
