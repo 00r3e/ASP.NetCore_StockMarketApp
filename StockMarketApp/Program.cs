@@ -7,6 +7,8 @@ using Serilog;
 using ServicesContracts;
 using Servicies;
 using StockMarketApp;
+using StockMarketApp.Middleware;
+using StockMarketApp.StartupExtensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,30 +19,21 @@ builder.Host.UseSerilog((HostBuilderContext context, IServiceProvider service, L
         .ReadFrom.Services(service); // Read app's services 
 });
 
-
-
-builder.Services.AddControllersWithViews();
-builder.Services.AddHttpClient();
-builder.Services.AddScoped<IFinnhubService, FinnhubService>();
-builder.Services.AddScoped<IStockService, StockService>();
-builder.Services.AddScoped<IFinnhubRepository, FinnhubRepository>();
-builder.Services.AddScoped<IStockRepository, StockRepository>();
-builder.Services.AddHttpLogging(logging =>
-{
-    logging.LoggingFields = Microsoft.AspNetCore.HttpLogging.HttpLoggingFields.RequestProperties |
-    Microsoft.AspNetCore.HttpLogging.HttpLoggingFields.ResponsePropertiesAndHeaders;
-});
-
-builder.Services.AddDbContext<OrdersDbContext>(options =>
-{
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")).EnableSensitiveDataLogging(); 
-});
-
-Rotativa.AspNetCore.RotativaConfiguration.Setup("wwwroot", wkhtmltopdfRelativePath: "Rotativa");
-
-builder.Services.Configure<TradingOptions>(builder.Configuration.GetSection("TradingOptions"));
+builder.Services.ConfigureServices(builder.Configuration);
 
 var app = builder.Build();
+
+if (builder.Environment.IsDevelopment())
+{
+    //app.UseDeveloperExceptionPage();
+    app.UseExceptionHandler("/Error");
+    app.UseExceptionHandlingMiddleware();
+}
+else
+{
+    app.UseExceptionHandler("/Error");
+    app.UseExceptionHandlingMiddleware();
+}
 
 app.UseHttpLogging();
 app.UseStaticFiles();
