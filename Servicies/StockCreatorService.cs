@@ -13,13 +13,13 @@ using Microsoft.Extensions.Logging;
 
 namespace Servicies
 {
-    public class StockService : IStockService
+    public class StockCreatorService : IStockCreatorService
     {
         //private field
         private readonly IStockRepository _stockRepository;
-        private readonly ILogger<StockService> _logger;
+        private readonly ILogger<StockCreatorService> _logger;
 
-        public StockService(IStockRepository stockRepository, ILogger<StockService> logger)
+        public StockCreatorService(IStockRepository stockRepository, ILogger<StockCreatorService> logger)
         {
             _stockRepository = stockRepository;
             _logger = logger;
@@ -27,7 +27,7 @@ namespace Servicies
 
         public async Task<BuyOrderResponse> CreateBuyOrder(BuyOrderRequest? buyOrderRequest)
         {
-            _logger.LogInformation("{MethodName} of {ServiceName}", nameof(CreateBuyOrder), nameof(StockService));
+            _logger.LogInformation("{MethodName} of {ServiceName}", nameof(CreateBuyOrder), nameof(StockCreatorService));
 
             if (buyOrderRequest == null) throw new ArgumentNullException(nameof(buyOrderRequest));
 
@@ -47,7 +47,7 @@ namespace Servicies
 
         public async Task<SellOrderResponse> CreateSellOrder(SellOrderRequest? sellOrderRequest)
         {
-            _logger.LogInformation("{MethodName} of {ServiceName}", nameof(CreateSellOrder), nameof(StockService));
+            _logger.LogInformation("{MethodName} of {ServiceName}", nameof(CreateSellOrder), nameof(StockCreatorService));
 
             if (sellOrderRequest == null) throw new ArgumentNullException(nameof(sellOrderRequest));
 
@@ -65,21 +65,5 @@ namespace Servicies
             return sellOrderResponse;
         }
 
-       
-        public async Task<List<BuyOrderResponse>> GetBuyOrders()
-        {
-            _logger.LogInformation("{MethodName} of {ServiceName}", nameof(GetBuyOrders), nameof(StockService));
-
-            var buyOrders = await _stockRepository.GetBuyOrders();
-            return buyOrders.Select(bo => bo.ToBuyOrderResponse()).ToList();
-        }
-
-        public async Task<List<SellOrderResponse>> GetSellOrders()
-        {
-            _logger.LogInformation("{MethodName} of {ServiceName}", nameof(GetSellOrders), nameof(StockService));
-
-            var sellOrders = await _stockRepository.GetSellOrders();
-            return sellOrders.Select(bo => bo.ToSellOrderResponse()).ToList();
-        }
     }
 }

@@ -13,20 +13,24 @@ namespace StockMarketApp.Controllers
     [Route("[controller]")]
     public class TradeController : Controller
     {
-        private readonly IFinnhubService _finnhubService;
+        private readonly IFinnhubGetterService _finnhubService;
         private readonly TradingOptions _tradingOptions;
         private readonly IConfiguration _configuration;
-        private readonly IStockService _stockService;
+        private readonly IStockCreatorService _stockCreatorService;
+        private readonly IStockGetterService _stockGetterService;
+
         private readonly ILogger<TradeController> _logger;
 
 
-        public TradeController(IFinnhubService finnhubService, IOptions<TradingOptions> tradingOptions, 
-                                IConfiguration configuration, IStockService stockService, ILogger<TradeController> logger) 
+        public TradeController(IFinnhubGetterService finnhubService, IOptions<TradingOptions> tradingOptions, 
+                                IConfiguration configuration, IStockCreatorService stockCreatorService,
+                                IStockGetterService stockGetterService, ILogger<TradeController> logger) 
         { 
             _finnhubService = finnhubService;
             _tradingOptions = tradingOptions.Value;
             _configuration = configuration;
-            _stockService = stockService;
+            _stockCreatorService = stockCreatorService;
+            _stockGetterService = stockGetterService;
             _logger = logger;
         }
 
@@ -84,7 +88,7 @@ namespace StockMarketApp.Controllers
         {
             _logger.LogInformation("{MetodName} action method of {ControllerName}", nameof(BuyOrder), nameof(TradeController));
 
-            BuyOrderResponse buyOrderResponse = await _stockService.CreateBuyOrder(orderRequest);
+            BuyOrderResponse buyOrderResponse = await _stockCreatorService.CreateBuyOrder(orderRequest);
 
             return RedirectToAction("Orders");
         }
@@ -97,7 +101,7 @@ namespace StockMarketApp.Controllers
         {
             _logger.LogInformation("{MetodName} action method of {ControllerName}",  nameof(SellOrder), nameof(TradeController));
 
-            SellOrderResponse sellOrderResponse = await _stockService.CreateSellOrder(orderRequest);
+            SellOrderResponse sellOrderResponse = await _stockCreatorService.CreateSellOrder(orderRequest);
 
             return RedirectToAction("Orders");
         }
@@ -111,8 +115,8 @@ namespace StockMarketApp.Controllers
 
             Orders orders = new Orders()
             {
-                BuyOrders = await _stockService.GetBuyOrders(),
-                SellOrders = await _stockService.GetSellOrders()
+                BuyOrders = await _stockGetterService.GetBuyOrders(),
+                SellOrders = await _stockGetterService.GetSellOrders()
             };
 
             return View(orders);
@@ -126,8 +130,8 @@ namespace StockMarketApp.Controllers
             Orders orders = new Orders();
 
             //Get list of sell and buy orders
-            orders.SellOrders = await _stockService.GetSellOrders();
-            orders.BuyOrders = await _stockService.GetBuyOrders();
+            orders.SellOrders = await _stockGetterService.GetSellOrders();
+            orders.BuyOrders = await _stockGetterService.GetBuyOrders();
 
             //Return view as pdf
             return new ViewAsPdf("OrdersPDF", orders, ViewData)

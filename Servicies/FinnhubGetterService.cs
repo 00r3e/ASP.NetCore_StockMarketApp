@@ -6,15 +6,15 @@ using ServicesContracts;
 
 namespace Servicies
 {
-    public class FinnhubService : IFinnhubService
+    public class FinnhubGetterService : IFinnhubGetterService
     {
         private readonly IHttpClientFactory _httpClientFactory;
         private readonly IConfiguration _configuration;
         private readonly IFinnhubRepository _finnhubRepository;
-        private readonly ILogger<FinnhubService> _logger;
+        private readonly ILogger<FinnhubGetterService> _logger;
 
-        public FinnhubService(IHttpClientFactory httpClientFactory, IConfiguration configuration, IFinnhubRepository finnhubRepository
-            , ILogger<FinnhubService> logger)
+        public FinnhubGetterService(IHttpClientFactory httpClientFactory, IConfiguration configuration, IFinnhubRepository finnhubRepository
+            , ILogger<FinnhubGetterService> logger)
         {
             _configuration = configuration;
             _httpClientFactory = httpClientFactory;
@@ -24,7 +24,7 @@ namespace Servicies
 
         public async Task<Dictionary<string, object>?> GetStockPriceQuote(string stockSymbol)
         {
-            _logger.LogInformation("{MethodName} of {ServiceName}", nameof(GetStockPriceQuote), nameof(FinnhubService));
+            _logger.LogInformation("{MethodName} of {ServiceName}", nameof(GetStockPriceQuote), nameof(FinnhubGetterService));
 
             Dictionary<string, object>? responceDictionary = await _finnhubRepository.GetStockPriceQuote(stockSymbol);
 
@@ -43,7 +43,7 @@ namespace Servicies
 
         public async Task<Dictionary<string, object>?> GetCompanyProfile(string stockSymbol)
         {
-            _logger.LogInformation("{MethodName} of {ServiceName}", nameof(GetCompanyProfile), nameof(FinnhubService));
+            _logger.LogInformation("{MethodName} of {ServiceName}", nameof(GetCompanyProfile), nameof(FinnhubGetterService));
 
             Dictionary<string, object>? responceDictionary = await _finnhubRepository.GetCompanyProfile(stockSymbol);
 
@@ -63,7 +63,7 @@ namespace Servicies
 
         public async Task<List<Dictionary<string, string>>?> GetStocks()
         {
-            _logger.LogInformation("{MethodName} of {ServiceName}", nameof(GetStocks), nameof(FinnhubService));
+            _logger.LogInformation("{MethodName} of {ServiceName}", nameof(GetStocks), nameof(FinnhubGetterService));
 
             List<Dictionary<string, string>>? responceDictionaries = await _finnhubRepository.GetStocks();
 
@@ -81,23 +81,5 @@ namespace Servicies
             return responceDictionaries;
         }
 
-        public async Task<Dictionary<string, object>?> SearchStocks(string stockSymbolToSearch)
-        {
-            _logger.LogInformation("{MethodName} of {ServiceName}", nameof(SearchStocks), nameof(FinnhubService));
-
-            Dictionary<string, object>? responceDictionary = await _finnhubRepository.SearchStocks(stockSymbolToSearch);
-
-            if (responceDictionary == null)
-            {
-                throw new InvalidOperationException("No response from finnhub server");
-            }
-
-            if (responceDictionary.ContainsKey("error"))
-            {
-                throw new InvalidOperationException(Convert.ToString(responceDictionary["error"]));
-            }
-
-            return responceDictionary;
-        }
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace ServicesContracts
 {
-    public interface IFinnhubService
+    public interface IFinnhubGetterService
     {
         /// <summary>
         /// Retrieves company Details from finnhub api
@@ -19,11 +19,5 @@
         /// </summary>
         /// <returns></returns>
         Task<List<Dictionary<string, string>>?> GetStocks();
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="stockSymbolToSearch"></param>
-        /// <returns></returns>
-        Task<Dictionary<string, object>?> SearchStocks(string stockSymbolToSearch);
     }
 }

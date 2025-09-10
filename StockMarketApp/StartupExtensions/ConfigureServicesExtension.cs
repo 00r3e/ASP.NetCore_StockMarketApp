@@ -14,8 +14,10 @@ namespace StockMarketApp.StartupExtensions
 
             services.AddControllersWithViews();
             services.AddHttpClient();
-            services.AddScoped<IFinnhubService, FinnhubService>();
-            services.AddScoped<IStockService, StockService>();
+            services.AddScoped<IFinnhubGetterService, FinnhubGetterService>();
+            services.AddScoped<IFinnhubSearcherService, FinnhubSearcherService>();
+            services.AddScoped<IStockGetterService, StockGetterService>();
+            services.AddScoped<IStockCreatorService, StockCreatorService>();
             services.AddScoped<IFinnhubRepository, FinnhubRepository>();
             services.AddScoped<IStockRepository, StockRepository>();
             services.AddHttpLogging(logging =>

@@ -9,14 +9,14 @@ namespace StockMarketApp.Controllers
     public class StocksController : Controller
     {
 
-        private readonly IFinnhubService _finnhubService;
+        private readonly IFinnhubGetterService _finnhubService;
         private readonly TradingOptions _tradingOptions;
         private readonly IConfiguration _configuration;
-        private readonly IStockService _stockService;
+        private readonly IStockCreatorService _stockService;
         private readonly ILogger<StocksController> _logger;
 
-        public StocksController(IFinnhubService finnhubService, IOptions<TradingOptions> tradingOptions,
-            IConfiguration configuration, IStockService stockService, ILogger<StocksController> logger)
+        public StocksController(IFinnhubGetterService finnhubService, IOptions<TradingOptions> tradingOptions,
+            IConfiguration configuration, IStockCreatorService stockService, ILogger<StocksController> logger)
         {
             _configuration = configuration;
             _tradingOptions = tradingOptions.Value;

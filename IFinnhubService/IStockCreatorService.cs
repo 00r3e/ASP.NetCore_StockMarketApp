@@ -7,7 +7,7 @@ using ServicesContracts.DTO;
 
 namespace ServicesContracts
 {
-    public interface IStockService
+    public interface IStockCreatorService
     {
         /// <summary>
         ///  Inserts a new buy order into the database table called 'BuyOrders'.
@@ -21,16 +21,5 @@ namespace ServicesContracts
         /// <param name="sellOrderRequest"> the sell request to add in the table</param>
         /// <returns>sell order response from the sell order that added in the table</returns>
         Task<SellOrderResponse> CreateSellOrder(SellOrderRequest? sellOrderRequest);
-        /// <summary>
-        /// Returns the existing list of buy orders retrieved from database table called 'BuyOrders'
-        /// </summary>
-        /// <returns>The list of buy orders from the table</returns>
-        Task<List<BuyOrderResponse>> GetBuyOrders();
-        /// <summary>
-        /// Returns the existing list of sell orders retrieved from database table called 'SellOrders'
-        /// </summary>
-        /// <returns>The list of sell order from the table</returns>
-        Task<List<SellOrderResponse>> GetSellOrders();
-
     }
 }
