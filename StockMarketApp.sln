@@ -3,19 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.12.35707.178
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StockMarketApp", "StockMarketApp\StockMarketApp.csproj", "{F92C7435-FB27-402D-910D-128EC68DCA65}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{137AA8CB-FFA0-4379-B0EB-632072121E42}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServicesContracts", "IFinnhubService\ServicesContracts.csproj", "{7073651C-64E9-4CCC-BF39-AFE627871E8A}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{2B1723DC-4009-46C0-A10A-219ADDBBA652}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Servicies", "Servicies\Servicies.csproj", "{B392083C-2B6E-41E0-BE41-6C190ABBA763}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StockMarketApp.UI", "StockMarketApp.UI\StockMarketApp.UI.csproj", "{EEFBBEC3-610D-4896-899F-AEAA585A3C0E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Entities", "Entities\Entities.csproj", "{C2BC67B3-36CA-41E6-AA09-6D4E296CCB11}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StockMarketApp.Core", "StockMarketApp.Core\StockMarketApp.Core.csproj", "{AC305922-4FF3-45AC-A186-3500F0C66EF9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StockMarketAppTests", "StockMarketAppTests\StockMarketAppTests.csproj", "{67AFD115-11FB-40DF-ABA9-F5D7A18981D9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StockMarketApp.Infrastructure", "StockMarketApp.Infrastructure\StockMarketApp.Infrastructure.csproj", "{737F33D7-CD0C-4CB5-8909-A92C6CF000E8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RepositoryContracts", "RepositoryContracts\RepositoryContracts.csproj", "{DD1E5D4F-B31E-4302-A6C5-2A3576F1FE53}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Repositories", "Repositories\Repositories.csproj", "{205B6C94-9418-49D6-9C0C-420553FF8BD9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StockMarketApp.ServiceTest", "StockMarketApp.ServiceTest\StockMarketApp.ServiceTest.csproj", "{B69C2BFE-8413-4C43-8FA8-1B293AB00BD3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,36 +21,30 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{F92C7435-FB27-402D-910D-128EC68DCA65}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F92C7435-FB27-402D-910D-128EC68DCA65}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F92C7435-FB27-402D-910D-128EC68DCA65}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F92C7435-FB27-402D-910D-128EC68DCA65}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7073651C-64E9-4CCC-BF39-AFE627871E8A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7073651C-64E9-4CCC-BF39-AFE627871E8A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7073651C-64E9-4CCC-BF39-AFE627871E8A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7073651C-64E9-4CCC-BF39-AFE627871E8A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B392083C-2B6E-41E0-BE41-6C190ABBA763}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B392083C-2B6E-41E0-BE41-6C190ABBA763}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B392083C-2B6E-41E0-BE41-6C190ABBA763}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B392083C-2B6E-41E0-BE41-6C190ABBA763}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C2BC67B3-36CA-41E6-AA09-6D4E296CCB11}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C2BC67B3-36CA-41E6-AA09-6D4E296CCB11}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C2BC67B3-36CA-41E6-AA09-6D4E296CCB11}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C2BC67B3-36CA-41E6-AA09-6D4E296CCB11}.Release|Any CPU.Build.0 = Release|Any CPU
-		{67AFD115-11FB-40DF-ABA9-F5D7A18981D9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{67AFD115-11FB-40DF-ABA9-F5D7A18981D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{67AFD115-11FB-40DF-ABA9-F5D7A18981D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{67AFD115-11FB-40DF-ABA9-F5D7A18981D9}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DD1E5D4F-B31E-4302-A6C5-2A3576F1FE53}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DD1E5D4F-B31E-4302-A6C5-2A3576F1FE53}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DD1E5D4F-B31E-4302-A6C5-2A3576F1FE53}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DD1E5D4F-B31E-4302-A6C5-2A3576F1FE53}.Release|Any CPU.Build.0 = Release|Any CPU
-		{205B6C94-9418-49D6-9C0C-420553FF8BD9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{205B6C94-9418-49D6-9C0C-420553FF8BD9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{205B6C94-9418-49D6-9C0C-420553FF8BD9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{205B6C94-9418-49D6-9C0C-420553FF8BD9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EEFBBEC3-610D-4896-899F-AEAA585A3C0E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EEFBBEC3-610D-4896-899F-AEAA585A3C0E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EEFBBEC3-610D-4896-899F-AEAA585A3C0E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EEFBBEC3-610D-4896-899F-AEAA585A3C0E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AC305922-4FF3-45AC-A186-3500F0C66EF9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AC305922-4FF3-45AC-A186-3500F0C66EF9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AC305922-4FF3-45AC-A186-3500F0C66EF9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AC305922-4FF3-45AC-A186-3500F0C66EF9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{737F33D7-CD0C-4CB5-8909-A92C6CF000E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{737F33D7-CD0C-4CB5-8909-A92C6CF000E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{737F33D7-CD0C-4CB5-8909-A92C6CF000E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{737F33D7-CD0C-4CB5-8909-A92C6CF000E8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B69C2BFE-8413-4C43-8FA8-1B293AB00BD3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B69C2BFE-8413-4C43-8FA8-1B293AB00BD3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B69C2BFE-8413-4C43-8FA8-1B293AB00BD3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B69C2BFE-8413-4C43-8FA8-1B293AB00BD3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{EEFBBEC3-610D-4896-899F-AEAA585A3C0E} = {137AA8CB-FFA0-4379-B0EB-632072121E42}
+		{AC305922-4FF3-45AC-A186-3500F0C66EF9} = {137AA8CB-FFA0-4379-B0EB-632072121E42}
+		{737F33D7-CD0C-4CB5-8909-A92C6CF000E8} = {137AA8CB-FFA0-4379-B0EB-632072121E42}
+		{B69C2BFE-8413-4C43-8FA8-1B293AB00BD3} = {2B1723DC-4009-46C0-A10A-219ADDBBA652}
 	EndGlobalSection
 EndGlobal
