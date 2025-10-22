@@ -1,4 +1,4 @@
-﻿﻿body {
+﻿/*﻿body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-size: 18px;
     background-color: #f7f7f7;
@@ -59,8 +59,8 @@
     left: 15px;
     bottom: -2px;
     height: 1px;
-    width: 50%; /* or 100px */
-    border-bottom: 2px solid #626262;
+    width: 50%;*/ /* or 100px */
+    /*border-bottom: 2px solid #626262;
 }
 
 .nav-active {
@@ -620,4 +620,767 @@ a.trade-now {
     .orders-list {
         flex-direction: row;
     }
+}*/
+
+/* Typography & Layout */
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f8f9fb;
+    color: #222;
+    margin: 0;
 }
+
+/* Breadcrumb */
+.breadcrumb {
+    color: #6c757d;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+/* Layout Containers */
+.stock-page {
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+}
+
+.stock-list, .stock-details {
+    flex: 1;
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    padding: 1.5rem;
+    min-width: 300px;
+}
+
+/* Stock Card List */
+.stock-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #fafafa;
+    border-radius: 12px;
+    padding: 1rem 1.2rem;
+    margin-bottom: 0.75rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: 1px solid transparent;
+}
+
+    .stock-card:hover {
+        border-color: #1976d2;
+        background: #f1f6fe;
+        transform: translateY(-2px);
+    }
+
+.stock-card-content {
+    display: flex;
+    flex-direction: column;
+}
+
+.stock-name {
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.stock-symbol {
+    font-size: 0.9rem;
+    color: #666;
+}
+
+/* Detail Card */
+.stock-detail-card {
+    text-align: center;
+    padding: 2rem;
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    animation: fadeIn 0.3s ease;
+}
+
+.stock-logo {
+    width: 100px;
+    height: 100px;
+    object-fit: contain;
+    margin-bottom: 1rem;
+    border-radius: 50%;
+    background-color: #f0f0f0;
+    padding: 0.5rem;
+}
+
+.stock-info h2 {
+    font-size: 1.4rem;
+    color: #1976d2;
+    margin-bottom: 0.3rem;
+}
+
+.stock-info p {
+    margin: 0.3rem 0;
+}
+
+.industry {
+    color: #555;
+    font-style: italic;
+}
+
+.price {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #2e7d32;
+    margin-top: 0.5rem;
+}
+
+/* Button */
+.material-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 1rem;
+    background: #1976d2;
+    color: #fff;
+    border: none;
+    padding: 0.7rem 1.5rem;
+    border-radius: 30px;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    font-weight: 600;
+}
+
+    .material-btn:hover {
+        background: #125aa0;
+        transform: translateY(-1px);
+    }
+
+/* Animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+* ========== GLOBAL CONTAINER & LAYOUT ========== */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1.5rem;
+}
+
+.page-content {
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+    padding: 2rem;
+}
+
+/* ========== TOP BAR / HEADER ========== */
+#top-bar-div {
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #e3e6eb;
+    padding-bottom: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.app-title {
+    display: flex;
+    align-items: center;
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #1976d2;
+    gap: 0.5rem;
+    letter-spacing: -0.5px;
+}
+
+    .app-title i {
+        color: #2e7d32;
+        font-size: 1.4rem;
+    }
+
+/* ========== SEARCH BOX ========== */
+#search-box-div {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.75rem;
+}
+
+.search-text {
+    flex: 1;
+    max-width: 250px;
+    padding: 0.6rem 1rem;
+    border: 1px solid #d0d5dd;
+    border-radius: 25px;
+    outline: none;
+    transition: all 0.2s ease;
+    background: #f9fafb;
+    font-size: 0.95rem;
+}
+
+    .search-text:focus {
+        border-color: #1976d2;
+        background: #fff;
+        box-shadow: 0 0 0 3px rgba(25, 118, 210, 0.15);
+    }
+
+#search-box-div i.fa-gear {
+    color: #555;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: transform 0.2s ease, color 0.2s ease;
+}
+
+    #search-box-div i.fa-gear:hover {
+        transform: rotate(45deg);
+        color: #1976d2;
+    }
+
+/* ========== BUTTONS ========== */
+.button {
+    border: none;
+    cursor: pointer;
+    padding: 0.6rem 1.4rem;
+    border-radius: 25px;
+    font-weight: 600;
+    transition: all 0.2s ease;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.button-blue-back {
+    background: #1976d2;
+    color: #fff;
+    box-shadow: 0 2px 6px rgba(25, 118, 210, 0.3);
+}
+
+    .button-blue-back:hover {
+        background: #125aa0;
+        transform: translateY(-1px);
+    }
+
+.login-button {
+    font-size: 0.9rem;
+}
+
+/* ========== NAVBAR ========== */
+.navbar {
+    background: #f7f9fc;
+    border-radius: 12px;
+    box-shadow: inset 0 0 0 1px #e3e6eb;
+    margin-bottom: 1.5rem;
+}
+
+    .navbar ul {
+        display: flex;
+        justify-content: center;
+        list-style: none;
+        padding: 0.6rem;
+        margin: 0;
+        gap: 1rem;
+    }
+
+        .navbar ul li a {
+            display: inline-block;
+            padding: 0.6rem 1.2rem;
+            border-radius: 25px;
+            text-decoration: none;
+            color: #444;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+            .navbar ul li a:hover {
+                background: #e3f2fd;
+                color: #1976d2;
+            }
+
+            .navbar ul li a.nav-active {
+                background: #1976d2;
+                color: #fff;
+                box-shadow: 0 2px 5px rgba(25, 118, 210, 0.3);
+            }
+
+/* ========== RESPONSIVENESS ========== */
+@media (max-width: 768px) {
+    .page-content {
+        padding: 1rem;
+    }
+
+    #search-box-div {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.5rem;
+    }
+
+    .search-text {
+        max-width: 100%;
+    }
+
+    .navbar ul {
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+}
+
+/* ========== MISC UTILITIES ========== */
+.ml {
+    margin-left: 0.5rem;
+}
+
+.mb {
+    margin-bottom: 1rem;
+}
+
+.flex {
+    display: flex;
+}
+
+.flex-1 {
+    flex: 1;
+}
+
+.pr {
+    padding-right: 1rem;
+}
+
+.margin-bottom {
+    margin-bottom: 1.5rem;
+}
+
+/* ===== CUSTOM APP TITLE STYLING ===== */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&display=swap');
+
+.app-title {
+    font-family: 'Poppins', sans-serif;
+    font-size: 2rem;
+    font-weight: 700;
+    color: #0d47a1; /* deep material blue */
+    letter-spacing: -0.5px;
+    text-transform: uppercase;
+}
+
+    .app-title i {
+        color: #43a047; /* fresh green tone for the icon */
+        font-size: 1.8rem;
+        margin-right: 0.4rem;
+        transition: transform 0.2s ease, color 0.2s ease;
+    }
+
+        .app-title i:hover {
+            transform: scale(1.15) rotate(-5deg);
+            color: #2e7d32; /* darker green hover */
+        }
+
+* ======== TRADING PAGE ======== */
+.trade-form {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.trading-panel {
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+    background: #fff;
+    border-radius: 16px;
+    padding: 2rem;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.06);
+}
+
+/* --- Left Card: Stock Info --- */
+.stock-info-card {
+    flex: 1;
+    min-width: 280px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background: #f9fafb;
+    border-radius: 16px;
+    padding: 1.5rem 2rem;
+    box-shadow: inset 0 0 0 1px #e3e6eb;
+    transition: all 0.2s ease;
+}
+
+    .stock-info-card:hover {
+        background: #f1f6fe;
+        transform: translateY(-2px);
+    }
+
+.stock-info-header {
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+}
+
+.stock-name {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #1976d2;
+}
+
+.stock-symbol {
+    font-size: 1rem;
+    color: #666;
+}
+
+.stock-price-display {
+    margin-top: 1rem;
+    display: flex;
+    align-items: baseline;
+    gap: 4px;
+}
+
+.currency-symbol {
+    font-size: 1.2rem;
+    color: #888;
+}
+
+.price-value {
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: #2e7d32;
+}
+
+/* --- Right Card: New Order --- */
+.order-card {
+    flex: 1;
+    min-width: 300px;
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.section-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #1976d2;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.input-label {
+    font-weight: 500;
+    color: #444;
+    margin-bottom: 0.3rem;
+    display: block;
+}
+
+.form-input {
+    width: 100%;
+    padding: 0.6rem 1rem;
+    border-radius: 10px;
+    border: 1px solid #d0d5dd;
+    font-size: 0.95rem;
+    background: #f9fafb;
+    transition: all 0.2s ease;
+}
+
+    .form-input:focus {
+        border-color: #1976d2;
+        background: #fff;
+        box-shadow: 0 0 0 3px rgba(25, 118, 210, 0.15);
+        outline: none;
+    }
+
+/* --- Buttons --- */
+.button-group {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.button-red-back {
+    background: #e53935;
+    color: #fff;
+    box-shadow: 0 2px 6px rgba(229, 57, 53, 0.3);
+}
+
+    .button-red-back:hover {
+        background: #c62828;
+    }
+
+.button-green-back {
+    background: #43a047;
+    color: #fff;
+    box-shadow: 0 2px 6px rgba(67, 160, 71, 0.3);
+}
+
+    .button-green-back:hover {
+        background: #2e7d32;
+    }
+
+/* ====== Responsive ====== */
+@media (max-width: 768px) {
+    .trading-panel {
+        flex-direction: column;
+        padding: 1.2rem;
+    }
+
+    .order-card, .stock-info-card {
+        padding: 1.2rem;
+    }
+
+    .price-value {
+        font-size: 1.8rem;
+    }
+}
+
+/* ======== ORDERS PAGE ======== */
+.orders-page {
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+}
+
+.orders-section {
+    flex: 1;
+    min-width: 320px;
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+    padding: 1.5rem;
+}
+
+.orders-header {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    border-bottom: 1px solid #e3e6eb;
+    padding-bottom: 0.8rem;
+    margin-bottom: 1rem;
+}
+
+    .orders-header h3 {
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: #1976d2;
+        margin: 0;
+    }
+
+.buy-icon {
+    color: #2e7d32;
+    font-size: 1.2rem;
+}
+
+.sell-icon {
+    color: #d32f2f;
+    font-size: 1.2rem;
+}
+
+.orders-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+/* --- Order Card --- */
+.order-card {
+    background: #f9fafb;
+    border-radius: 12px;
+    padding: 1rem 1.2rem;
+    box-shadow: inset 0 0 0 1px #e3e6eb;
+    transition: all 0.2s ease;
+}
+
+    .order-card:hover {
+        background: #f1f6fe;
+        transform: translateY(-2px);
+        box-shadow: 0 2px 6px rgba(25, 118, 210, 0.1);
+    }
+
+.order-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 0.5rem;
+}
+
+.stock-name {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #1976d2;
+}
+
+.stock-symbol {
+    font-size: 0.9rem;
+    color: #555;
+}
+
+.order-info p {
+    margin: 0.3rem 0;
+    font-size: 0.95rem;
+}
+
+.order-info strong {
+    color: #2e7d32;
+}
+
+.order-date {
+    color: #888;
+    font-size: 0.85rem;
+    margin-top: 0.4rem;
+}
+
+/* --- Empty State --- */
+.empty-orders {
+    text-align: center;
+    color: #888;
+    font-size: 0.95rem;
+    background: #fafafa;
+    border-radius: 12px;
+    padding: 1rem;
+    border: 1px dashed #ccc;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+    .orders-page {
+        flex-direction: column;
+    }
+
+    .orders-section {
+        padding: 1rem;
+    }
+}
+
+/* ===== AUTH PAGES (Login / Register) ===== */
+.auth-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 40px;
+}
+
+.auth-card {
+    background: #ffffff;
+    padding: 40px;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    width: 400px;
+    max-width: 90%;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+    .auth-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 6px 25px rgba(0, 0, 0, 0.12);
+    }
+
+.auth-title {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #0d47a1;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+    .auth-title i {
+        color: #43a047;
+        margin-right: 0.4rem;
+    }
+
+.auth-subtext {
+    text-align: center;
+    font-size: 0.9rem;
+    color: #777;
+    margin-bottom: 25px;
+}
+
+.auth-link {
+    color: #1976d2;
+    font-weight: 500;
+    text-decoration: none;
+}
+
+    .auth-link:hover {
+        text-decoration: underline;
+    }
+
+/* Form layout */
+.form-group {
+    margin-bottom: 18px;
+}
+
+.input-label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: #333;
+}
+
+    .input-label i {
+        color: #1565c0;
+        margin-right: 6px;
+    }
+
+.form-input {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+    .form-input:focus {
+        border-color: #1976d2;
+        box-shadow: 0 0 6px rgba(25, 118, 210, 0.3);
+        outline: none;
+    }
+
+/* Validation & errors */
+.validation-text {
+    color: #d32f2f;
+    font-size: 0.85rem;
+}
+
+.validation-summary ul {
+    margin: 0;
+    padding-left: 20px;
+    color: #d32f2f;
+    font-size: 0.9rem;
+}
+
+.error-box {
+    background: #ffebee;
+    border: 1px solid #e57373;
+    border-radius: 8px;
+    padding: 10px 15px;
+    color: #c62828;
+}
+
+/* Radio buttons */
+.radio-group {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    font-size: 0.95rem;
+}
+
+    .radio-group input[type="radio"] {
+        accent-color: #1976d2;
+    }
+
+/* Buttons full width */
+.w-100 {
+    width: 100%;
+}
+
+

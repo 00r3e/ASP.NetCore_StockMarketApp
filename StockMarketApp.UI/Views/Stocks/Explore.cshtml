@@ -1,4 +1,5 @@
-﻿@model List<Stock>
+﻿
+@model List<Stock>
 @{
 	ViewBag.Title = "Explore";
 	ViewBag.CurrentUrl = "~/Stocks/Explore";
@@ -7,33 +8,29 @@
 	var stockDetails = (ViewBag.StockDetails != null) ? ViewBag.StockDetails as Dictionary<string, string> : null;
 }
 
-<div class="text-grey ml">
+<div class="breadcrumb">
 	<span>Stocks</span>
 	<i class="fa-solid fa-caret-right"></i>
 	<span>Explore</span>
 </div>
 
-<div class="flex order-list ">
-	<div id="container-list" class="w-50">
-		<div class="box">
-			@foreach (var stock in Model)
-			{
-				<div class="box">
-					<a class="stocks-font" href="javascript:void(0);" onclick="loadStockDetails('@stock.StockSymbol')">
-						<p class="stocks-font">@stock.StockName</p>
-						<p class="stocks-font">(@stock.StockSymbol)</p>
-					</a>
+<div class="stock-page">
+	<div class="stock-list">
+		@foreach (var stock in Model)
+		{
+			<div class="stock-card" onclick="loadStockDetails('@stock.StockSymbol')">
+				<div class="stock-card-content">
+					<div class="stock-name">@stock.StockName</div>
+					<div class="stock-symbol">(@stock.StockSymbol)</div>
 				</div>
-			}
-
-		</div>
-
+				<i class="fa-solid fa-chevron-right"></i>
+			</div>
+		}
 	</div>
 
-	<div id="container-list" class="w-50">
-
+	<div class="stock-details">
 		<div id="stock-details-container">
-			@* This will be loaded *@
+			@* Loaded dynamically *@
 		</div>
 	</div>
 </div>

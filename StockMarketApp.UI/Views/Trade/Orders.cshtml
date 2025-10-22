@@ -1,23 +1,32 @@
-﻿@model Orders
+﻿
+@model Orders
 
 @{
     ViewBag.Title = "Trading";
     ViewBag.CurrentUrl = "~/Trade/Orders";
 }
-<div class="text-grey ml">
+
+<div class="breadcrumb">
     <span>Stocks</span>
     <i class="fa-solid fa-caret-right"></i>
     <span>Orders</span>
 </div>
 
+<div class="orders-page">
+    <!-- BUY ORDERS -->
+    <div class="orders-section">
+        <div class="orders-header">
+            <i class="fa-solid fa-arrow-trend-up buy-icon"></i>
+            <h3>Buy Orders</h3>
+        </div>
 
-<div class="flex order-list">
-    <div id="container-list">
-        <div class="box">
-            <h4 class="text-grey mb">Buy Orders</h4>
-            @foreach(BuyOrderResponse buyOrderResponse in Model.BuyOrders){
-                @await Html.PartialAsync("/Views/Shared/_OrderDetails.cshtml",
-                         new ViewDataDictionary(ViewData){
+        <div class="orders-list">
+            @if (Model.BuyOrders != null && Model.BuyOrders.Any())
+            {
+                @foreach (BuyOrderResponse buyOrderResponse in Model.BuyOrders)
+                {
+                    @await Html.PartialAsync("/Views/Shared/_OrderDetails.cshtml",
+                             new ViewDataDictionary(ViewData){
             {"StockName", buyOrderResponse.StockName },
             {"StockSymbol", buyOrderResponse.StockSymbol },
             {"Quantity", buyOrderResponse.Quantity },
@@ -25,19 +34,29 @@
             {"TradeAmount", buyOrderResponse.TradeAmount},
             {"DateAndTimeOfOrder", buyOrderResponse.DateAndTimeOfOrder }
             })
+                }
             }
-            </div>
-            
+            else
+            {
+                <div class="empty-orders">No buy orders yet.</div>
+            }
+        </div>
     </div>
 
-    <div id="container-list">
+    <!-- SELL ORDERS -->
+    <div class="orders-section">
+        <div class="orders-header">
+            <i class="fa-solid fa-arrow-trend-down sell-icon"></i>
+            <h3>Sell Orders</h3>
+        </div>
 
-        <div class="box">
-            <h4 class="text-grey mb">Sell Orders</h4>
-            @foreach (SellOrderResponse sellOrderResponse in Model.SellOrders)
+        <div class="orders-list">
+            @if (Model.SellOrders != null && Model.SellOrders.Any())
             {
-                @await Html.PartialAsync("/Views/Shared/_OrderDetails.cshtml",
-                         new ViewDataDictionary(ViewData){
+                @foreach (SellOrderResponse sellOrderResponse in Model.SellOrders)
+                {
+                    @await Html.PartialAsync("/Views/Shared/_OrderDetails.cshtml",
+                             new ViewDataDictionary(ViewData){
             {"StockName", sellOrderResponse.StockName },
             {"StockSymbol", sellOrderResponse.StockSymbol },
             {"Quantity", sellOrderResponse.Quantity },
@@ -45,9 +64,12 @@
             {"TradeAmount", sellOrderResponse.TradeAmount},
             {"DateAndTimeOfOrder", sellOrderResponse.DateAndTimeOfOrder }
             })
+                }
             }
-            </div>
-
+            else
+            {
+                <div class="empty-orders">No sell orders yet.</div>
+            }
+        </div>
     </div>
-
 </div>

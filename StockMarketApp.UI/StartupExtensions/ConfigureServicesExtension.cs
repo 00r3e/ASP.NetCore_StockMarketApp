@@ -1,9 +1,12 @@
 ﻿using Entities;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Repositories;
 using RepositoryContracts;
 using ServicesContracts;
 using Servicies;
+using StockMarketApp.Core.Domain.IdentityEntities;
 
 namespace StockMarketApp.StartupExtensions
 {
@@ -30,6 +33,26 @@ namespace StockMarketApp.StartupExtensions
             {
                 options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")).EnableSensitiveDataLogging();
             });
+
+            //Enable Identity
+            services.AddIdentity<ApplicationUser, ApplicationRole>(options =>
+            {
+                options.Password.RequiredLength = 5;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireDigit = false;
+                options.Password.RequiredUniqueChars = 0;
+            })
+
+                .AddEntityFrameworkStores<OrdersDbContext>()
+
+                .AddDefaultTokenProviders()
+
+                .AddUserStore<UserStore<ApplicationUser, ApplicationRole, OrdersDbContext, Guid>>()
+
+                .AddRoleStore<RoleStore<ApplicationRole, OrdersDbContext, Guid>>();
+
 
             Rotativa.AspNetCore.RotativaConfiguration.Setup("wwwroot", wkhtmltopdfRelativePath: "Rotativa");
 

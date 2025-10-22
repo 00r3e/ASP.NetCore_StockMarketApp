@@ -26,8 +26,16 @@
 
                         <input type="search" class="search-text" placeholder="Search Stocks" name="SearchText" />
                         <i class="fa-solid fa-gear"></i>
-
-                        <button class="button button-blue-back ml login-button">Login</button>
+                        @if(User.Identity.IsAuthenticated)
+                        {
+                            <div>@User.Identity?.Name</div>
+                            <a asp-controller="Account" asp-action="Logout" class="button button-blue-back ml login-button">Logout</a>
+                        }
+                        else
+                        {
+                            <a asp-controller="Account" asp-action="Register" class="button button-blue-back ml login-button">Register</a>
+                            <a asp-controller="Account" asp-action="Login" class="button button-blue-back ml login-button">Login</a>
+                        }
                     </div>
                 </div>
 

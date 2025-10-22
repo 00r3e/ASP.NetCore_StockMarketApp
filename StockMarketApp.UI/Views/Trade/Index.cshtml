@@ -1,53 +1,70 @@
-﻿@model StockTrade
+﻿
+@model StockTrade
 
 @{
-	ViewBag.Title = "Trading";
-	ViewBag.CurrentUrl = "~/Trade/Index";
+    ViewBag.Title = "Trading";
+    ViewBag.CurrentUrl = "~/Trade/Index";
 }
 
-<form method="post">
+<form method="post" class="trade-form">
 
-	<div class="text-grey ml">
-		<span>Stocks</span>
-		<i class="fa-solid fa-caret-right"></i>
-		<span>@Model.StockName</span>
-	</div>
-	<div class="flex trading-panel-flex box background-grey">
-		<div class="fo mr-50">
-			<div hidden>@Model.StockSymbol</div>
-			<div class="flex-container">
-				<div class="stock-font">@Model.StockName</div>
-				<div class="stock-font">(@Model.StockSymbol)</div>
-			</div>
-			<h1 id="curentPrice" class="font-size-stockprice"><span class="text-grey">$</span> @Model.Price</h1>
+    <div class="breadcrumb">
+        <span>Stocks</span>
+        <i class="fa-solid fa-caret-right"></i>
+        <span>@Model.StockName</span>
+    </div>
 
-		</div>
-		<div id="new-order-panel">
-			<div class="flex flex-direction-vertical"></div>
-			<div class="text-grey mb">New Order</div>
-			<label asp-for="Quantity" class="mt">Quantity:</label>
-			<div class="w-25">
-				<input type="number" asp-for="Quantity" min="1" max="100000"  required="required" class="form-input mb quantity-width" autofocus="autofocus" />
-			</div>
+    <div class="trading-panel">
+        <!-- Left: Stock Info -->
+        <div class="stock-info-card">
+            <div hidden>@Model.StockSymbol</div>
+            <div class="stock-info-header">
+                <h2 class="stock-name">@Model.StockName</h2>
+                <span class="stock-symbol">(@Model.StockSymbol)</span>
+            </div>
+            <div class="stock-price-display">
+                <span class="currency-symbol">$</span>
+                <span id="curentPrice" class="price-value">@Model.Price</span>
+            </div>
+        </div>
 
-			<button type="submit" asp-controller="Trade" asp-action="SellOrder" class="button-red-back button mr">Sell</button>
-			<button type="submit" asp-controller="Trade" asp-action="BuyOrder" class="button-green-back button mr">Buy</button>
+        <!-- Right: New Order -->
+            <div class="order-card">
+            @if (User.Identity.IsAuthenticated)
+            {
+                <h3 class="section-title">
+                    <i class="fa-solid fa-circle-plus"></i> New Order
+                </h3>
 
-		</div>
+                <label asp-for="Quantity" class="input-label">Quantity:</label>
+                <input type="number" asp-for="Quantity" min="1" max="100000" required class="form-input mb" autofocus />
 
-	</div>
+                <div class="button-group">
+                    <button type="submit" asp-controller="Trade" asp-action="SellOrder" class="button button-red-back">
+                        <i class="fa-solid fa-arrow-trend-down"></i> Sell
+                    </button>
+                    <button type="submit" asp-controller="Trade" asp-action="BuyOrder" class="button button-green-back">
+                        <i class="fa-solid fa-arrow-trend-up"></i> Buy
+                    </button>
+                </div>
+            }else{
+                <h3 class="section-title">
+                    <i class="fa-solid fa-circle-plus"></i> You need to Login to make an order
+                </h3>
+            }
+            </div>
+        
+    </div>
 
-
-	<input asp-for="StockSymbol" type="hidden" />
-	<input asp-for="StockName" type="hidden" />
-	<input asp-for="Price" type="hidden"/>
-	<input type="hidden" id="FinnhubToken" value="@ViewBag.FinnhubToken" />
-
+    <input asp-for="StockSymbol" type="hidden" />
+    <input asp-for="StockName" type="hidden" />
+    <input asp-for="Price" type="hidden" />
+    <input type="hidden" id="FinnhubToken" value="@ViewBag.FinnhubToken" />
 
 </form>
 
 @section Scripts {
-	<script src=@Url.Content("~/Scripts/FinnhubScript.js")>
-	</script>
+    <script src=@Url.Content("~/Scripts/FinnhubScript.js")></script>
 }
+
 

@@ -1,9 +1,14 @@
-﻿<div class="box">
-	<div>@ViewBag.StockName (@ViewBag.StockSymbol)</div>
+﻿
+<div class="order-card">
+    <div class="order-header">
+        <span class="stock-name">@ViewBag.StockName</span>
+        <span class="stock-symbol">(@ViewBag.StockSymbol)</span>
+    </div>
 
-	<div>@ViewBag.Quantity shares at  $@ViewBag.Price</div>
-
-	<div>Trade Amount: @ViewBag.TradeAmount </div>
-	<div>@ViewBag.DateAndTimeOfOrder</div>
+    <div class="order-info">
+        <p><strong>@ViewBag.Quantity</strong> shares at <strong>$@ViewBag.Price</strong></p>
+        <p>Trade Amount: <strong>$@ViewBag.TradeAmount</strong></p>
+        <p class="order-date">@ViewBag.DateAndTimeOfOrder</p>
+    </div>
 </div>
 

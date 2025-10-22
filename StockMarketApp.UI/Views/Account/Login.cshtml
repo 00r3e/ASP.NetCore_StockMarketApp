@@ -1,0 +1,64 @@
+﻿@model LoginDTO
+@{
+	ViewBag.Title = "Login";
+	ViewBag.CurrentUrl = "~/Account/Login";
+}
+
+<div class="breadcrumb">
+	<span>Account</span>
+	<i class="fa-solid fa-caret-right"></i>
+	<span>Login</span>
+</div>
+
+<div class="auth-container">
+	<div class="auth-card">
+		<h2 class="auth-title"><i class="fa-solid fa-right-to-bracket"></i> Login</h2>
+		<p class="auth-subtext">Not yet registered? <a asp-action="Register" asp-controller="Account" class="auth-link">Create an account</a></p>
+
+		<form asp-controller="Account" asp-action="Login" asp-route-ReturnUrl="@Context.Request.Query["ReturnUrl"]" method="post">
+
+			<div class="form-group">
+				<label asp-for="Email" class="input-label"><i class="fa-solid fa-envelope"></i> Email</label>
+				<input asp-for="Email" class="form-input" />
+				<span asp-validation-for="Email" class="validation-text"></span>
+			</div>
+
+			<div class="form-group">
+				<label asp-for="Password" class="input-label"><i class="fa-solid fa-lock"></i> Password</label>
+				<input asp-for="Password" class="form-input" type="password" />
+				<span asp-validation-for="Password" class="validation-text"></span>
+			</div>
+
+			<button type="submit" class="button button-blue-back w-100 mt-20">
+				<i class="fa-solid fa-arrow-right-to-bracket"></i> Login
+			</button>
+
+			<div asp-validation-summary="All" class="validation-summary mt-10"></div>
+
+			@if (ViewBag.Errors != null)
+			{
+				<div class="error-box mt-10">
+					<ul>
+						@foreach (string error in ViewBag.Errors)
+						{
+							<li>@error</li>
+						}
+					</ul>
+				</div>
+			}
+
+		</form>
+	</div>
+</div>
+
+
+@section scripts
+{
+	<!-- cdnjs  jquery  -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer" asp-fallback-test="window.jQuery" asp-fallback-src="~/jquery.min.js"></script>
+	<!-- cdnjs  jquery-validation -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.4/jquery.validate.min.js" integrity="sha512-FOhq9HThdn7ltbK8abmGn60A/EMtEzIzv1rvuh+DqzJtSGq8BRdEN0U+j0iKEIffiw/yEtVuladk6rsG4X6Uqg==" crossorigin="anonymous" referrerpolicy="no-referrer" asp-fallback-test="window.jQuery.validator" asp-fallback-src="~/jquery.validate.min.js"></script>
+	<!-- cdnjs  jquery-validation-unobtrusive -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.12/jquery.validate.unobtrusive.min.js" integrity="sha512-o6XqxgrUsKmchwy9G5VRNWSSxTS4Urr4loO6/0hYdpWmFUfHqGzawGxeQGMDqYzxjY9sbktPbNlkIQJWagVZQg==" crossorigin="anonymous" referrerpolicy="no-referrer" asp-fallback-test="window.jQuery.validator.unobstrusive" asp-fallback-src="jquery.validate.unobtrusive.min.js"></script>
+
+} 

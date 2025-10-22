@@ -36,6 +36,7 @@ else
 app.UseHttpLogging();
 app.UseStaticFiles();
 app.UseRouting();
+app.UseAuthentication();
 app.MapControllers();
 
 
