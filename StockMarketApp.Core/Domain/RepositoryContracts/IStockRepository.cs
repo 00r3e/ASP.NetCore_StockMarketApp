@@ -29,12 +29,12 @@ namespace RepositoryContracts
         /// Returns all BuyOrder from the data store
         /// </summary>
         /// <returns>List of all BuyOrder in the data store</returns>
-        Task<List<BuyOrder>> GetBuyOrders();
+        Task<List<BuyOrder>> GetBuyOrders(Guid userId);
 
         /// <summary>
         /// Returns all SellOrder from the data store
         /// </summary>
         /// <returns>List of all SellOrder in the data store</returns>
-        Task<List<SellOrder>> GetSellOrders();
+        Task<List<SellOrder>> GetSellOrders(Guid userId);
     }
 }

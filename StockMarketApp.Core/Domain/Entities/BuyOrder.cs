@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using StockMarketApp.Core.Domain.IdentityEntities;
 
 namespace Entities
 {
@@ -22,5 +23,12 @@ namespace Entities
         public uint Quantity { get; set; }
         [Range(1, 100000, ErrorMessage = "Price should be between 1 and 100000")]
         public double Price { get; set; }
+
+        //FK
+        [Required]
+        public Guid UserId { get; set; }
+
+        // Navigation property
+        public ApplicationUser User { get; set; }
     }
 }

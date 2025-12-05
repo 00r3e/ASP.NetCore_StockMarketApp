@@ -24,7 +24,7 @@ namespace Servicies
             _logger = logger;
         }
 
-        public async Task<BuyOrderResponse> CreateBuyOrder(BuyOrderRequest? buyOrderRequest)
+        public async Task<BuyOrderResponse> CreateBuyOrder(BuyOrderRequest? buyOrderRequest, Guid userId)
         {
             _logger.LogInformation("{MethodName} of {ServiceName}", nameof(CreateBuyOrder), nameof(StockCreatorService));
 
@@ -36,6 +36,7 @@ namespace Servicies
             BuyOrder buyOrder = buyOrderRequest.ToBuyOrder();
              
             buyOrder.BuyOrderID = Guid.NewGuid();
+            buyOrder.UserId = userId;
 
             await _stockRepository.CreateBuyOrder(buyOrder);
 
@@ -44,7 +45,7 @@ namespace Servicies
             return buyOrderResponse;
         }
 
-        public async Task<SellOrderResponse> CreateSellOrder(SellOrderRequest? sellOrderRequest)
+        public async Task<SellOrderResponse> CreateSellOrder(SellOrderRequest? sellOrderRequest, Guid userId)
         {
             _logger.LogInformation("{MethodName} of {ServiceName}", nameof(CreateSellOrder), nameof(StockCreatorService));
 
@@ -56,6 +57,7 @@ namespace Servicies
             SellOrder sellOrder = sellOrderRequest.ToSellOrder();
 
             sellOrder.SellOrderID = Guid.NewGuid();
+            sellOrder.UserId = userId;
 
             await _stockRepository.CreateSellOrder(sellOrder);
 

@@ -1,10 +1,12 @@
 ﻿using Entities;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Options;
 using Rotativa.AspNetCore;
 using ServicesContracts;
 using ServicesContracts.DTO;
+using StockMarketApp.Core.Domain.IdentityEntities;
 using StockMarketApp.Filters.ActionFilters;
 using StockMarketApp.Models;
 
@@ -18,19 +20,23 @@ namespace StockMarketApp.Controllers
         private readonly IConfiguration _configuration;
         private readonly IStockCreatorService _stockCreatorService;
         private readonly IStockGetterService _stockGetterService;
+        private readonly UserManager<ApplicationUser> _userManager;
 
         private readonly ILogger<TradeController> _logger;
 
 
         public TradeController(IFinnhubGetterService finnhubService, IOptions<TradingOptions> tradingOptions, 
                                 IConfiguration configuration, IStockCreatorService stockCreatorService,
-                                IStockGetterService stockGetterService, ILogger<TradeController> logger) 
+                                IStockGetterService stockGetterService, ILogger<TradeController> logger,
+                                UserManager<ApplicationUser> userManager) 
         { 
             _finnhubService = finnhubService;
             _tradingOptions = tradingOptions.Value;
             _configuration = configuration;
             _stockCreatorService = stockCreatorService;
             _stockGetterService = stockGetterService;
+            _userManager = userManager;
+
             _logger = logger;
         }
 
@@ -88,7 +94,13 @@ namespace StockMarketApp.Controllers
         {
             _logger.LogInformation("{MetodName} action method of {ControllerName}", nameof(BuyOrder), nameof(TradeController));
 
-            BuyOrderResponse buyOrderResponse = await _stockCreatorService.CreateBuyOrder(orderRequest);
+            if (!TryGetUserId(out Guid userId))
+            {
+                // User not logged in → return empty orders view
+                return RedirectToAction("Orders");
+            }
+
+            await _stockCreatorService.CreateBuyOrder(orderRequest, userId);
 
             return RedirectToAction("Orders");
         }
@@ -99,9 +111,12 @@ namespace StockMarketApp.Controllers
 
         public async Task<IActionResult> SellOrder(SellOrderRequest orderRequest)
         {
-            _logger.LogInformation("{MetodName} action method of {ControllerName}",  nameof(SellOrder), nameof(TradeController));
+            if (!TryGetUserId(out Guid userId))
+            {
+                return RedirectToAction("Orders");
+            }
 
-            SellOrderResponse sellOrderResponse = await _stockCreatorService.CreateSellOrder(orderRequest);
+            await _stockCreatorService.CreateSellOrder(orderRequest, userId);
 
             return RedirectToAction("Orders");
         }
@@ -113,10 +128,19 @@ namespace StockMarketApp.Controllers
         {
             _logger.LogInformation("{MetodName} action method of {ControllerName}", nameof(Orders), nameof(TradeController));
 
+            if (!TryGetUserId(out Guid userId))
+            {
+                return View(new Orders
+                {
+                    BuyOrders = new List<BuyOrderResponse>(),
+                    SellOrders = new List<SellOrderResponse>()
+                });
+            }
+
             Orders orders = new Orders()
             {
-                BuyOrders = await _stockGetterService.GetBuyOrders(),
-                SellOrders = await _stockGetterService.GetSellOrders()
+                BuyOrders = await _stockGetterService.GetBuyOrders(userId),
+                SellOrders = await _stockGetterService.GetSellOrders(userId)
             };
 
             return View(orders);
@@ -129,9 +153,11 @@ namespace StockMarketApp.Controllers
 
             Orders orders = new Orders();
 
+            var userId = Guid.Parse(_userManager.GetUserId(User));
+
             //Get list of sell and buy orders
-            orders.SellOrders = await _stockGetterService.GetSellOrders();
-            orders.BuyOrders = await _stockGetterService.GetBuyOrders();
+            orders.SellOrders = await _stockGetterService.GetSellOrders(userId);
+            orders.BuyOrders = await _stockGetterService.GetBuyOrders(userId);
 
             //Return view as pdf
             return new ViewAsPdf("OrdersPDF", orders, ViewData)
@@ -139,6 +165,15 @@ namespace StockMarketApp.Controllers
                 PageMargins = new Rotativa.AspNetCore.Options.Margins() { Top = 20, Bottom = 20, Left = 20, Right = 20 },
                 PageOrientation = Rotativa.AspNetCore.Options.Orientation.Landscape
             };
+        }
+
+        private bool TryGetUserId(out Guid userId)
+        {
+            userId = default;
+
+            var userIdString = _userManager.GetUserId(User);
+
+            return Guid.TryParse(userIdString, out userId);
         }
 
     }

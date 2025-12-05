@@ -33,14 +33,14 @@ namespace Repositories
             return sellOrder;
         }
 
-        public async Task<List<BuyOrder>> GetBuyOrders()
+        public async Task<List<BuyOrder>> GetBuyOrders(Guid userId)
         {
-            return await _dbContext.BuyOrders.ToListAsync();
+            return await _dbContext.BuyOrders.Where(o => o.UserId == userId).ToListAsync();
         }
 
-        public async Task<List<SellOrder>> GetSellOrders()
+        public async Task<List<SellOrder>> GetSellOrders(Guid userId)
         {
-            return await _dbContext.SellOrders.ToListAsync();
+            return await _dbContext.SellOrders.Where(o => o.UserId == userId).ToListAsync();
         }
     }
 }

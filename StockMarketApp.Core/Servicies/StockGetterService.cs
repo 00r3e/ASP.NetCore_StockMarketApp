@@ -25,19 +25,19 @@ namespace Servicies
         }
 
        
-        public async Task<List<BuyOrderResponse>> GetBuyOrders()
+        public async Task<List<BuyOrderResponse>> GetBuyOrders(Guid userId)
         {
             _logger.LogInformation("{MethodName} of {ServiceName}", nameof(GetBuyOrders), nameof(StockGetterService));
 
-            var buyOrders = await _stockRepository.GetBuyOrders();
+            var buyOrders = await _stockRepository.GetBuyOrders(userId);
             return buyOrders.Select(bo => bo.ToBuyOrderResponse()).ToList();
         }
 
-        public async Task<List<SellOrderResponse>> GetSellOrders()
+        public async Task<List<SellOrderResponse>> GetSellOrders(Guid userId)
         {
             _logger.LogInformation("{MethodName} of {ServiceName}", nameof(GetSellOrders), nameof(StockGetterService));
 
-            var sellOrders = await _stockRepository.GetSellOrders();
+            var sellOrders = await _stockRepository.GetSellOrders(userId);
             return sellOrders.Select(bo => bo.ToSellOrderResponse()).ToList();
         }
     }
