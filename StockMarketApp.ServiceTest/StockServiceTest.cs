@@ -12,6 +12,7 @@ using Servicies;
 
 namespace StockMarketAppTests
 {
+
     public class StockServiceTest
     {
         //Arrange
@@ -24,6 +25,7 @@ namespace StockMarketAppTests
         private readonly IStockRepository _stockRepository;
 
         private readonly IFixture _fixture;
+        private readonly Guid _userId = new Guid();
 
         public StockServiceTest()
         {
@@ -39,6 +41,15 @@ namespace StockMarketAppTests
             _stockCreatorService = new StockCreatorService(_stockRepository, loggerCreatorMock.Object);
             _stockGetterService = new StockGetterService(_stockRepository, loggerGetterMock.Object);
 
+            _userId = Guid.NewGuid();
+
+            _fixture.Behaviors
+                .OfType<ThrowingRecursionBehavior>()
+                .ToList()
+                .ForEach(b => _fixture.Behaviors.Remove(b));
+
+            _fixture.Behaviors.Add(new OmitOnRecursionBehavior());
+
         }
 
         #region CreateBuyOrder
@@ -53,7 +64,7 @@ namespace StockMarketAppTests
 
             Func<Task> action = async () =>
             {
-                await _stockCreatorService.CreateBuyOrder(buyOrderRequest);
+                await _stockCreatorService.CreateBuyOrder(buyOrderRequest, _userId);
             };
 
             await action.Should().ThrowAsync<ArgumentNullException>();
@@ -71,7 +82,7 @@ namespace StockMarketAppTests
             //Act
             Func<Task> action = async () =>
             {
-                await _stockCreatorService.CreateBuyOrder(buyOrderRequest);
+                await _stockCreatorService.CreateBuyOrder(buyOrderRequest, _userId);
             };
 
             //Assert
@@ -89,7 +100,7 @@ namespace StockMarketAppTests
             //Act
             Func<Task> action = async () =>
             {
-                await _stockCreatorService.CreateBuyOrder(buyOrderRequest);
+                await _stockCreatorService.CreateBuyOrder(buyOrderRequest, _userId);
             };
 
             //Assert
@@ -107,7 +118,7 @@ namespace StockMarketAppTests
             //Assert
             Func<Task> action = async () =>
             {
-                await _stockCreatorService.CreateBuyOrder(buyOrderRequest);
+                await _stockCreatorService.CreateBuyOrder(buyOrderRequest, _userId);
             };
 
             //Act
@@ -126,7 +137,7 @@ namespace StockMarketAppTests
             //Assert
             Func<Task> action = async () =>
             {
-                await _stockCreatorService.CreateBuyOrder(buyOrderRequest);
+                await _stockCreatorService.CreateBuyOrder(buyOrderRequest, _userId);
             };
 
             //Act
@@ -146,7 +157,7 @@ namespace StockMarketAppTests
             //Assert
             Func<Task> action = async () =>
             {
-                await _stockCreatorService.CreateBuyOrder(buyOrderRequest);
+                await _stockCreatorService.CreateBuyOrder(buyOrderRequest, _userId);
             };
 
             //Act
@@ -171,7 +182,7 @@ namespace StockMarketAppTests
                 .ReturnsAsync(buyOrder);
 
             ///Act
-            BuyOrderResponse buyOrderResponseFromCreate = await _stockCreatorService.CreateBuyOrder(buyOrderRequest);
+            BuyOrderResponse buyOrderResponseFromCreate = await _stockCreatorService.CreateBuyOrder(buyOrderRequest, _userId);
 
             //Assert
             buyOrderResponseFromCreate.BuyOrderID.Should().NotBe(Guid.Empty);
@@ -193,7 +204,7 @@ namespace StockMarketAppTests
             //Act
             Func<Task> action = async () =>
             {
-                await _stockCreatorService.CreateSellOrder(sellOrderRequest);
+                await _stockCreatorService.CreateSellOrder(sellOrderRequest, _userId);
             };
 
             //Assert
@@ -212,7 +223,7 @@ namespace StockMarketAppTests
             //Act
             Func<Task> action = async () =>
             {
-                await _stockCreatorService.CreateSellOrder(sellOrderRequest);
+                await _stockCreatorService.CreateSellOrder(sellOrderRequest, _userId);
             };
 
             //Assert
@@ -230,7 +241,7 @@ namespace StockMarketAppTests
             //Act
             Func<Task> action = async () =>
             {
-                await _stockCreatorService.CreateSellOrder(sellOrderRequest);
+                await _stockCreatorService.CreateSellOrder(sellOrderRequest, _userId);
             };
 
             //Assert
@@ -248,7 +259,7 @@ namespace StockMarketAppTests
             //Act
             Func<Task> action = async () =>
             {
-                await _stockCreatorService.CreateSellOrder(sellOrderRequest);
+                await _stockCreatorService.CreateSellOrder(sellOrderRequest, _userId);
             };
 
             //Assert
@@ -267,7 +278,7 @@ namespace StockMarketAppTests
             //Act
             Func<Task> action = async () =>
             {
-                await _stockCreatorService.CreateSellOrder(sellOrderRequest);
+                await _stockCreatorService.CreateSellOrder(sellOrderRequest, _userId);
             };
 
             //Assert
@@ -287,7 +298,7 @@ namespace StockMarketAppTests
             //Act
             Func<Task> action = async () =>
             {
-                await _stockCreatorService.CreateSellOrder(sellOrderRequest);
+                await _stockCreatorService.CreateSellOrder(sellOrderRequest, _userId);
             };
 
             //Assert
@@ -311,7 +322,7 @@ namespace StockMarketAppTests
                 .ReturnsAsync(sellOrder);
 
             ///Act
-            SellOrderResponse sellOrderResponseFromCreate = await _stockCreatorService.CreateSellOrder(sellOrderRequest);
+            SellOrderResponse sellOrderResponseFromCreate = await _stockCreatorService.CreateSellOrder(sellOrderRequest, _userId);
 
             //Assert
             sellOrderResponseFromCreate.SellOrderID.Should().NotBe(Guid.Empty);
@@ -326,10 +337,10 @@ namespace StockMarketAppTests
         public async Task GetBuyOrders_EmptyList_ToBeEmpty()
         {
             //Arrange
-            _stockRepositoryMock.Setup(temp => temp.GetBuyOrders())
+            _stockRepositoryMock.Setup(temp => temp.GetBuyOrders(_userId))
                 .ReturnsAsync(new List<BuyOrder>());
             //Act
-            var buyOrders = await _stockGetterService.GetBuyOrders();
+            var buyOrders = await _stockGetterService.GetBuyOrders(_userId);
             //Assert
 
             buyOrders.Should().BeEmpty();
@@ -340,23 +351,29 @@ namespace StockMarketAppTests
         [Fact]
         public async Task GetBuyOrders_AddingProperValues_ToBeSuccessful()
         {
-            //Arrange
+            // Arrange
+            var userId = Guid.NewGuid();
+
             List<BuyOrder> buyOrders = new List<BuyOrder>
-            {
-                _fixture.Build<BuyOrder>().Create(),
-                _fixture.Build<BuyOrder>().Create(),
-                _fixture.Build<BuyOrder>().Create()
-            };
+                {
+                    _fixture.Build<BuyOrder>().Create(),
+                    _fixture.Build<BuyOrder>().Create(),
+                    _fixture.Build<BuyOrder>().Create()
+                };
 
-            List<BuyOrderResponse> buyOrderResponseListExpected = buyOrders.Select(temp => temp.ToBuyOrderResponse()).ToList();
+            List<BuyOrderResponse> expected = buyOrders
+                .Select(temp => temp.ToBuyOrderResponse()).ToList();
 
-            //Act
-            _stockRepositoryMock.Setup(temp => temp.GetBuyOrders())
+            _stockRepositoryMock
+                .Setup(r => r.GetBuyOrders(userId))
                 .ReturnsAsync(buyOrders);
-            List<BuyOrderResponse> buyOrderResponseListFromGet = await _stockGetterService.GetBuyOrders();
 
-            //Assert
-            buyOrderResponseListFromGet.Should().BeEquivalentTo(buyOrderResponseListExpected);
+            // Act
+            var result = await _stockGetterService.GetBuyOrders(userId);
+
+            // Assert
+            result.Should().BeEquivalentTo(expected);
+
 
         }
 
@@ -368,12 +385,12 @@ namespace StockMarketAppTests
         public async Task GetSellOrders_EmptyList_ToBeEmpty()
         {
             //Arrange
-            _stockRepositoryMock.Setup(temp => temp.GetSellOrders())
+            _stockRepositoryMock.Setup(temp => temp.GetSellOrders(_userId))
                 .ReturnsAsync(new List<SellOrder>());
-            
+
             //Act
-            var sellOrders = await _stockGetterService.GetSellOrders();
-            
+            var sellOrders = await _stockGetterService.GetSellOrders(_userId);
+
             //Assert
             sellOrders.Should().BeEmpty();
         }
@@ -394,9 +411,9 @@ namespace StockMarketAppTests
             List<SellOrderResponse> sellOrderResponseListExpected = sellOrders.Select(temp => temp.ToSellOrderResponse()).ToList();
 
             //Act
-            _stockRepositoryMock.Setup(temp => temp.GetSellOrders())
+            _stockRepositoryMock.Setup(temp => temp.GetSellOrders(_userId))
                 .ReturnsAsync(sellOrders);
-            List<SellOrderResponse> sellOrderResponseListFromGet = await _stockGetterService.GetSellOrders();
+            List<SellOrderResponse> sellOrderResponseListFromGet = await _stockGetterService.GetSellOrders(_userId);
 
             //Assert
             sellOrderResponseListFromGet.Should().BeEquivalentTo(sellOrderResponseListExpected);

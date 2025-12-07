@@ -31,6 +31,8 @@ namespace StockMarketApp.Controllers
         {
             _logger.LogInformation("{MetodName} action method of {ControllerName}", nameof(Explore), nameof(StocksController));
 
+            ViewBag.CurrentStockSymbol = stockSymbol;
+
             // Get all stocks 
             List<Dictionary<string, string>>? allStocks = await _finnhubService.GetStocks();
 
@@ -65,6 +67,8 @@ namespace StockMarketApp.Controllers
         public async Task<IActionResult> GetStockDetails(string stockSymbol)
         {
             _logger.LogInformation("{MetodName} action method of {ControllerName}", nameof(GetStockDetails), nameof(StocksController));
+
+            ViewBag.CurrentStockSymbol = stockSymbol;
 
             var stockDetails = await _finnhubService.GetCompanyProfile(stockSymbol);
             var stockPriceQuote = await _finnhubService.GetStockPriceQuote(stockSymbol);

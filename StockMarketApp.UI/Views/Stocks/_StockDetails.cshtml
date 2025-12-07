@@ -6,6 +6,9 @@
 
 @if (Model != null)
 {
+    {
+    ViewBag.CurrentStockSymbol = Model["ticker"]; 
+    }
     <div class="stock-detail-card">
         <img class="stock-logo" src="@Model["logo"]" alt="@Model["ticker"] Logo" />
         <div class="stock-info">

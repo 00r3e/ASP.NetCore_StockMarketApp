@@ -48,6 +48,7 @@ namespace StockMarketApp.Controllers
         {
             _logger.LogInformation("{MetodName} action method of {ControllerName}",  nameof(Index), nameof(TradeController));
 
+            ViewBag.CurrentStockSymbol = stockSymbol;
 
             if (_tradingOptions.DefaultStockSymbol == null)
             {
@@ -90,9 +91,12 @@ namespace StockMarketApp.Controllers
         [Route("[action]")]
         [HttpPost]
         [TypeFilter(typeof(CreateOrderActionFilter))]
-        public async Task<IActionResult> BuyOrder(BuyOrderRequest orderRequest)
+        public async Task<IActionResult> BuyOrder(BuyOrderRequest orderRequest, string StockSymbol)
         {
             _logger.LogInformation("{MetodName} action method of {ControllerName}", nameof(BuyOrder), nameof(TradeController));
+
+            ViewBag.CurrentStockSymbol = StockSymbol;
+
 
             if (!TryGetUserId(out Guid userId))
             {
@@ -102,15 +106,19 @@ namespace StockMarketApp.Controllers
 
             await _stockCreatorService.CreateBuyOrder(orderRequest, userId);
 
-            return RedirectToAction("Orders");
+            return RedirectToAction("Orders", new { stockSymbol = StockSymbol });
         }
 
         [Route("[action]")]
         [HttpPost]
         [TypeFilter(typeof(CreateOrderActionFilter))]
 
-        public async Task<IActionResult> SellOrder(SellOrderRequest orderRequest)
+        public async Task<IActionResult> SellOrder(SellOrderRequest orderRequest, string StockSymbol)
         {
+
+            ViewBag.CurrentStockSymbol = StockSymbol;
+
+
             if (!TryGetUserId(out Guid userId))
             {
                 return RedirectToAction("Orders");
@@ -118,15 +126,17 @@ namespace StockMarketApp.Controllers
 
             await _stockCreatorService.CreateSellOrder(orderRequest, userId);
 
-            return RedirectToAction("Orders");
+            return RedirectToAction("Orders", new { stockSymbol = StockSymbol });
         }
 
         [Route("[action]")]
         [HttpGet]
 
-        public async Task<IActionResult> Orders()
+        public async Task<IActionResult> Orders(string stockSymbol)
         {
             _logger.LogInformation("{MetodName} action method of {ControllerName}", nameof(Orders), nameof(TradeController));
+
+            ViewBag.CurrentStockSymbol = stockSymbol;
 
             if (!TryGetUserId(out Guid userId))
             {
