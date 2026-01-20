@@ -6,7 +6,7 @@ The project demonstrates Clean Architecture, real-time updates, and test-driven 
 🌐 Live Demo
 
 🔗 Public URL:
-https://stockmarketappexample-hecxf9bxh6eeadde.canadacentral-01.azurewebsites.net/
+https://stockmarketdemo.azurewebsites.net
 
 Deployed on Azure App Service
 
