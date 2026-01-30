@@ -3,10 +3,6 @@
 A full-stack ASP.NET Core MVC application that displays live stock prices using data from Finnhub.io.
 The project demonstrates Clean Architecture, real-time updates, and test-driven development using Entity Framework Core, xUnit, and FluentValidation.
 
-🌐 Live Demo
-
-🔗 Public URL:
-https://stockmarketdemo.azurewebsites.net
 
 Deployed on Azure App Service
 
