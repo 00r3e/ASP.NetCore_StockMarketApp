@@ -4,8 +4,6 @@ A full-stack ASP.NET Core MVC application that displays live stock prices using 
 The project demonstrates Clean Architecture, real-time updates, and test-driven development using Entity Framework Core, xUnit, and FluentValidation.
 
 
-Deployed on Azure App Service
-
 📁 Project Structure
 ASP.NetCore_StockMarketApp/
 │
